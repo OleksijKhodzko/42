@@ -1,0 +1,32 @@
+import 'package:fortytwo/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AuthService {
+  // var which represents auth for current session
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  UserObject? _userFromFirebaseUser(User? user) =>
+      user == null ? null : UserObject(uid: user.uid);
+
+  // stream which provides user object when auth state is changed
+  Stream<UserObject?> get user =>
+      _auth.authStateChanges().map(_userFromFirebaseUser);
+
+  Future<UserObject?> signInWithEmailAndPassword(
+      String email, String password) async {
+    return _userFromFirebaseUser((await _auth.signInWithEmailAndPassword(
+            email: email, password: password))
+        .user);
+  }
+
+  Future<UserObject?> createUserWithEmailAndPassword(
+      String email, String password) async {
+    return _userFromFirebaseUser((await _auth.createUserWithEmailAndPassword(
+            email: email, password: password))
+        .user);
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+}
