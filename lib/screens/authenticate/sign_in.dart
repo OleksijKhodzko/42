@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    flex: 20,
+                    flex: 10,
                     child: Container(),
                   ),
                   Flexible(
@@ -187,6 +187,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                       log('signing up done');
                                       log('credentials: $credential');
                                     } on FirebaseAuthException catch (e) {
+                                      if (e.code == 'wrong-password') {
+                                        setState(() {
+                                          loading = false;
+                                          error = "Неправильний пароль";
+                                        });
+                                        return;
+                                      }
+                                      if (e.code == 'user-not-found') {
+                                        setState(() {
+                                          loading = false;
+                                          error = "Неправильний email";
+                                        });
+                                        return;
+                                      }
+                                      if (e.code == 'too-many-requests') {
+                                        setState(() {
+                                          loading = false;
+                                          error =
+                                              "Забагато спроб. Змініть пароль або спробуйте пізніше";
+                                        });
+                                        return;
+                                      }
                                       setState(() {
                                         loading = false;
                                         error = e.toString();
@@ -213,6 +235,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            error,
+                            style: const TextStyle(color: Colors.red),
                           ),
                           const SizedBox(
                             height: 15,
