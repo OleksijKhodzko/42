@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fortytwo/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -5,8 +7,15 @@ class AuthService {
   // var which represents auth for current session
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserObject? _userFromFirebaseUser(User? user) =>
-      user == null ? null : UserObject(uid: user.uid);
+  UserObject? _userFromFirebaseUser(User? user) {
+    try {
+      return user == null ? null : UserObject(uid: user.uid);
+    } catch (e) {
+      log('UserSnapshotFromFirebase: $user');
+      log(e.toString());
+      return null;
+    }
+  }
 
   // stream which provides user object when auth state is changed
   Stream<UserObject?> get user =>

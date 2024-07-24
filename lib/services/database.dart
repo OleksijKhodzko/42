@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fortytwo/models/course.dart';
 import 'package:fortytwo/models/user.dart';
@@ -21,11 +23,22 @@ class UserDatabase {
     });
   }
 
-  Stream<UserData> get userData {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .snapshots()
-        .map((snapshot) => UserData.fromJson(snapshot, lessonsCollection));
+  Stream<UserData?> get userData {
+    try {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .map((snapshot) {
+        if (snapshot.exists) {
+          return UserData.fromJson(snapshot.data(), lessonsCollection);
+        } else {
+          return null;
+        }
+      });
+    } catch (e) {
+      log('Error in database get userData');
+      throw Exception(e);
+    }
   }
 }

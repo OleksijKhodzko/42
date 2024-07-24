@@ -10,8 +10,10 @@ class UserData {
   final String uid;
   final List<Course>? courses;
   final bool premium;
+  final String? avatarUrl;
 
-  UserData({required this.uid, this.courses, required this.premium});
+  UserData(
+      {required this.uid, this.courses, required this.premium, this.avatarUrl});
 
   factory UserData.fromJson(json, lessonsCollection) => UserData(
         uid: json['uid'],
@@ -23,13 +25,13 @@ class UserData {
         //   _courseFromSnapshot(await coursesCollection.doc(uid).get());
         // }),
         premium: json['premium'],
+        avatarUrl: json['avatarUrl'],
       );
 
-  Map<String, dynamic> fromJson(Map<String, dynamic> json) {
-    return {
-      'uid': json['uid'],
-      'courses': json['courses'].map((Course course) => course.toJson()),
-      'premium': json['premium'],
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'courses': courses?.map((course) => course.toJson()).toList(),
+        'premium': premium,
+        'avatarUrl': avatarUrl,
+      };
 }
