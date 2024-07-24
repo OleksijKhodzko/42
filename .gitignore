@@ -1,7 +1,10 @@
-*
-!/lib
-!lib/*
-!lib/
-!pubspec.yaml
-!README.md
-!.gitignore
+.fvm
+.dart_tool
+.git
+android
+build
+ios
+linux
+macos
+web
+windows
