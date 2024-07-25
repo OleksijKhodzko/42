@@ -14,6 +14,9 @@ class UserDatabase {
   final CollectionReference lessonsCollection =
       FirebaseFirestore.instance.collection('lessons');
 
+  final CollectionReference gradesCollection =
+      FirebaseFirestore.instance.collection('grades');
+
   Future<void> updateUserData(List<Course>? courses, bool premium) async {
     return await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'courses': courses == null

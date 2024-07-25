@@ -29,6 +29,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       home: const MainView(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainView(),
+        '/grades_course': (context) => GradesCourse(),
+      },
     );
   }
 }

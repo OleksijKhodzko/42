@@ -148,19 +148,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   },
                                 ),
                                 hintText: 'Create Password',
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                   color: Color(0xFF837E93),
                                   fontSize: 10,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
                                 ),
-                                labelStyle: TextStyle(
+                                labelStyle: const TextStyle(
                                   color: Color(0xFF755DC1),
                                   fontSize: 15,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
                                 ),
-                                enabledBorder: OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
@@ -168,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Color(0xFF837E93),
                                   ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
