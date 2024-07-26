@@ -1,4 +1,4 @@
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fortytwo/models/course.dart';
 
 class Grade {
@@ -8,11 +8,11 @@ class Grade {
 
   Grade({this.courses, required this.grade});
 
-  factory Grade.fromJson(json, Reference lessonsCollection) {
+  factory Grade.fromJson(json, CollectionReference lessonsCollection) {
     return Grade(
         grade: json['grade'],
         courses: json['courses']
-            .map((json) => Course.fromJson(json, lessonsCollection)));
+            .map((json) => CourseData.fromJson(json, lessonsCollection)));
   }
 
   Map<String, dynamic> toJson() => {

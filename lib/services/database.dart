@@ -4,10 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fortytwo/models/course.dart';
 import 'package:fortytwo/models/user.dart';
 
-class UserDatabase {
-  final String uid;
-  UserDatabase({required this.uid});
-
+class DatabaseService {
   final CollectionReference coursesCollection =
       FirebaseFirestore.instance.collection('courses');
 
@@ -16,6 +13,11 @@ class UserDatabase {
 
   final CollectionReference gradesCollection =
       FirebaseFirestore.instance.collection('grades');
+}
+
+class UserDatabase extends DatabaseService {
+  final String uid;
+  UserDatabase({required this.uid});
 
   Future<void> updateUserData(List<Course>? courses, bool premium) async {
     return await FirebaseFirestore.instance.collection('users').doc(uid).set({

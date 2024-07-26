@@ -3,6 +3,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/user.dart';
+import 'package:fortytwo/screens/home/grade_course.dart';
 import 'package:fortytwo/screens/wrapper.dart';
 import 'package:fortytwo/services/auth.dart';
 import 'package:fortytwo/shared/loading.dart';
@@ -28,11 +29,10 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: const MainView(),
       initialRoute: '/',
       routes: {
         '/': (context) => const MainView(),
-        '/grades_course': (context) => GradesCourse(),
+        '/grade_courses': (context) => const GradeCourse(),
       },
     );
   }
@@ -66,8 +66,7 @@ class _MainViewState extends State<MainView> {
         : StreamProvider<UserObject?>.value(
             initialData: null,
             value: AuthService().user,
-            child: const MaterialApp(
-              home: Wrapper(),
-            ));
+            child: const Wrapper(),
+          );
   }
 }

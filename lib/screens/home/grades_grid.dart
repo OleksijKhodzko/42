@@ -18,36 +18,77 @@ class _GradesGridState extends State<GradesGrid> {
       children: [
         Container(
           color: Colors.blueGrey,
+          // child: const GradeTile(text: '5 клас'),
           child: InkWell(
             child: const GradeTile(text: '5 клас'),
             onTap: () {
-              Navigator.pushNamed(context, '/grade_courses', arguments: 5);
+              Navigator.pushNamed(context, '/grade_courses',
+                  arguments: 'f41ev5xU57CTLRLvpj1q');
             },
           ),
         ),
         Container(
           color: Colors.amber,
-          child: const GradeTile(text: '6 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '6 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 6);
+            },
+          ),
         ),
         Container(
           color: Colors.pink,
-          child: const GradeTile(text: '7 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '7 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 7);
+            },
+          ),
         ),
         Container(
           color: Colors.blue,
-          child: const GradeTile(text: '8 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '8 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 8);
+            },
+          ),
         ),
         Container(
           color: Colors.red,
-          child: const GradeTile(text: '9 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '9 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 9);
+            },
+          ),
         ),
         Container(
           color: Colors.green,
-          child: const GradeTile(text: '10 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '10 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 10);
+            },
+          ),
         ),
         Container(
           color: Colors.cyan,
-          child: const GradeTile(text: '11 клас'),
+          child: InkWell(
+            child: const GradeTile(text: '11 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 11);
+            },
+          ),
+        ),
+        Container(
+          color: Colors.teal,
+          child: InkWell(
+            child: const GradeTile(text: '12 клас'),
+            onTap: () {
+              Navigator.pushNamed(context, '/grade_courses', arguments: 12);
+            },
+          ),
         ),
       ],
     );
