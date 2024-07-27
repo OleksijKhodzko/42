@@ -179,12 +179,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() => loading = true);
                                     try {
-                                      log('signing up');
+                                      log('signing in');
                                       final credential = await _auth
                                           .signInWithEmailAndPassword(
                                               _emailController.value.text,
                                               _passController.value.text);
-                                      log('signing up done');
+                                      log('signing in done');
                                       log('credentials: $credential');
                                     } on FirebaseAuthException catch (e) {
                                       if (e.code == 'wrong-password') {

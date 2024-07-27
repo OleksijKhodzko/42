@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fortytwo/models/lesson.dart';
 
@@ -16,22 +18,26 @@ class CourseData {
         'uid': uid,
         'title': title,
         'description': description,
-        'lessons': lessons?.map((lesson) => lesson.uid).toList(),
+        'lessons': lessons?.map((lesson) => lesson.toJson()).toList(),
       };
 
-  factory CourseData.fromJson(json, CollectionReference lessonsCollection) =>
-      CourseData(
-        // uid: json['uid'],
-        // title: json['title'],
-        // description: json['description'],
-        // lessons:
-        //     json['lessons'].map((lesson) => Lesson.fromJson(lesson)).toList());
-        uid: json['uid'],
-        title: json['title'],
-        description: json['description'],
-        lessons: json['lessons'].map((uid) async =>
-            Lesson.fromJson(await lessonsCollection.doc(uid).get())),
-      );
+  factory CourseData.fromJson(DocumentSnapshot json) {
+    log('line 25: ${json['lessons'].toString()}');
+    log('line 26: ${json['lessons'] == null}');
+    log('line 27: ${json['lessons'] == "null"}');
+    log('line 28: ${json['lessons']?.map((json) => Lesson.fromJson(json)).toList()}');
+    return CourseData(
+      // uid: json['uid'],
+      // title: json['title'],
+      // description: json['description'],
+      // lessons:
+      //     json['lessons'].map((lesson) => Lesson.fromJson(lesson)).toList());
+      uid: json['uid'],
+      title: json['title'],
+      description: json['description'],
+      lessons: json['lessons']?.map((json) => Lesson.fromJson(json))?.toList(),
+    );
+  }
 }
 
 class LessonStatistics {
@@ -72,9 +78,9 @@ class Course {
 
   Course({required this.uid, required this.data, required this.progress});
 
-  factory Course.fromJson(json, lessonsCollection) => Course(
+  factory Course.fromJson(json) => Course(
       uid: json['uid'],
-      data: CourseData.fromJson(json['data'], lessonsCollection),
+      data: CourseData.fromJson(json['data']),
       progress: CourseProgress.fromJson(json['progress']));
 
   Map<String, dynamic> toJson() => {

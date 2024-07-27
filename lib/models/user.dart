@@ -15,11 +15,10 @@ class UserData {
   UserData(
       {required this.uid, this.courses, required this.premium, this.avatarUrl});
 
-  factory UserData.fromJson(json, lessonsCollection) => UserData(
+  factory UserData.fromJson(json) => UserData(
         uid: json['uid'],
         courses: json['courses']
-            .map((Map<String, dynamic> course) =>
-                Course.fromJson(course, lessonsCollection))
+            .map((Map<String, dynamic> course) => Course.fromJson(course))
             .toList(),
         // courses: snapshot.get('courses').map((String uid) async {
         //   _courseFromSnapshot(await coursesCollection.doc(uid).get());
