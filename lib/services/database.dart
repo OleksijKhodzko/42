@@ -96,13 +96,13 @@ class CourseDatabase {
     doc = FirebaseFirestore.instance.collection('courses').doc(uid);
   }
 
-  Stream<Course?> get course {
+  Stream<CourseData?> get course {
     return doc.snapshots().map((snapshot) {
       if (!snapshot.exists) {
         log('Course not found: $uid');
         return null;
       }
-      return Course.fromJson(snapshot.data());
+      return CourseData.fromJson(snapshot.data());
     });
   }
 }

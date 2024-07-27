@@ -21,17 +21,8 @@ class CourseData {
         'lessons': lessons?.map((lesson) => lesson.toJson()).toList(),
       };
 
-  factory CourseData.fromJson(DocumentSnapshot json) {
-    log('line 25: ${json['lessons'].toString()}');
-    log('line 26: ${json['lessons'] == null}');
-    log('line 27: ${json['lessons'] == "null"}');
-    log('line 28: ${json['lessons']?.map((json) => Lesson.fromJson(json)).toList()}');
+  factory CourseData.fromJson(json) {
     return CourseData(
-      // uid: json['uid'],
-      // title: json['title'],
-      // description: json['description'],
-      // lessons:
-      //     json['lessons'].map((lesson) => Lesson.fromJson(lesson)).toList());
       uid: json['uid'],
       title: json['title'],
       description: json['description'],
