@@ -16,8 +16,7 @@ class CourseTile extends StatelessWidget {
         trailing: const Icon(Icons.chevron_right),
       ),
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/course_preview', arguments: course.uid);
+        Navigator.of(context).pushNamed('/course_preview', arguments: course);
       },
     );
   }
