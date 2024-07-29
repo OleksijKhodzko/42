@@ -5,21 +5,21 @@ import 'package:fortytwo/screens/home/course_section.dart';
 class CourseData {
   final String title;
   final String? description;
-  final List<CourseSection>? contens;
+  final List<CourseSection>? content;
 
-  CourseData({required this.title, this.description, this.contens});
+  CourseData({required this.title, this.description, this.content});
 
   Map<String, dynamic> toJson() => {
         'title': title,
         'description': description,
-        'contens': contens?.map((section) => section.toJson()).toList(),
+        'content': content?.map((section) => section.toJson()).toList(),
       };
 
   factory CourseData.fromJson(json) {
     return CourseData(
       title: json['title'],
       description: json['description'],
-      contens: json['contens']
+      content: json['content']
           ?.map((json) => CourseSection.fromJson(json))
           ?.toList(),
     );

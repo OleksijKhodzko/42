@@ -10,16 +10,11 @@ class Grade {
   Grade({this.courses, required this.grade});
 
   factory Grade.fromJson(json) {
-    try {
-      return Grade(
-          grade: json['grade'],
-          courses: json['courses']
-              ?.map<CourseData>((json) => CourseData.fromJson(json))
-              .toList() as List<CourseData>);
-    } catch (e) {
-      log('Error: ${e.toString()}');
-      rethrow;
-    }
+    return Grade(
+        grade: json['grade'],
+        courses: json['courses']
+            ?.map<CourseData>((json) => CourseData.fromJson(json))
+            .toList() as List<CourseData>);
   }
 
   Map<String, dynamic> toJson() => {

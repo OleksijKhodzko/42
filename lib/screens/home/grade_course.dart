@@ -1,8 +1,5 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fortytwo/models/course.dart';
 import 'package:fortytwo/models/grade.dart';
 import 'package:fortytwo/screens/home/course_tile.dart';
 import 'package:fortytwo/services/database.dart';
@@ -26,7 +23,9 @@ class _GradeCourseState extends State<GradeCourse> {
     }
 
     return StreamBuilder<Grade?>(
-        stream: GradeDatabase(uid: grade!).grade,
+        // TODO: remove everything for hot reload
+        // asBroadcastStream is used for hot reload
+        stream: GradeDatabase(uid: grade!).grade.asBroadcastStream(),
         builder: (BuildContext context, AsyncSnapshot<Grade?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();

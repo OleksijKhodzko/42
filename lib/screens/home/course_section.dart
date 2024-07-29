@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fortytwo/models/lesson.dart';
 
 class CourseSection {
@@ -14,6 +16,7 @@ class CourseSection {
       };
 
   factory CourseSection.fromJson(json) {
+    log("line 19: ${json['title']}");
     return CourseSection(
       title: json['title'],
       description: json['description'],
