@@ -125,15 +125,7 @@ class CourseDatabase {
         Map<String, dynamic> courseJson =
             courseSnapshot.data() as Map<String, dynamic>;
         if (courseJson.containsValue('content')) {
-          // for (int i = 0; i < courseJson['content'].length; i++) {
-          //   List<DocumentSnapshot> lessonsList = [];
-          //   for (DocumentReference courseReference in courseJson['content']
-          //       [i]) {
-          //     lessonsList.add(await courseReference.get());
-          //   }
-          //   courseJson['content'][i] = lessonsList;
-          // }
-          List<List<DocumentSnapshot>> content = [];
+          List<List<Map<String, dynamic>>> content = [];
           // courseJson['content'] is a map like this:
           // {
           // '1': {
@@ -146,11 +138,12 @@ class CourseDatabase {
           // }
           // it is map instead of 2d array, because nested arrays
           // are impossible in firebase
-          for (int sectionIndex in courseJson['content']) {
-            List<DocumentSnapshot> lessonsList = [];
+          for (String sectionIndex in courseJson['content']) {
+            List<Map<String, dynamic>> lessonsList = [];
             for (DocumentReference lessonReference in courseJson['content']
                 [sectionIndex]['lessons']) {
-              lessonsList.add(await lessonReference.get());
+              lessonsList.add(
+                  (await lessonReference.get()).data() as Map<String, dynamic>);
             }
             content.add(lessonsList);
           }
