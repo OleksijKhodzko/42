@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/screens/authenticate/authenticate.dart';
-import 'package:fortytwo/screens/home/grades.dart';
+import 'package:fortytwo/screens/grade/grades.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {

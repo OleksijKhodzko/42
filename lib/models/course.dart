@@ -1,4 +1,4 @@
-import 'package:fortytwo/screens/home/course_section.dart';
+import 'package:fortytwo/screens/course/course_section.dart';
 
 // represents global course data,
 // common to all users

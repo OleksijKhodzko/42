@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fortytwo/models/course.dart';
 
 class Grade {

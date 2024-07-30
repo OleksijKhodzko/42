@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fortytwo/screens/home/course_section.dart';
+import 'package:fortytwo/screens/course/course_section.dart';
 import 'package:fortytwo/screens/home/section_tile.dart';
 
 class CourseContent extends StatefulWidget {

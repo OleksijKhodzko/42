@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/grade.dart';
-import 'package:fortytwo/screens/home/course_tile.dart';
+import 'package:fortytwo/screens/course/course_tile.dart';
 import 'package:fortytwo/services/database.dart';
 import 'package:fortytwo/shared/loading.dart';
 
