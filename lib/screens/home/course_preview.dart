@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/course.dart';
+import 'package:fortytwo/screens/home/course_content.dart';
 
 class CoursePreview extends StatefulWidget {
   const CoursePreview({super.key});
@@ -45,7 +46,10 @@ class _CoursePreviewState extends State<CoursePreview> {
             ),
             Expanded(
               flex: 80,
-              child: Text(course.toJson().toString()),
+              // child: Text(course.toJson().toString()),
+              child: course.content == null
+                  ? const Text('Поки у цього курсу немає змісту')
+                  : CourseContent(content: course.content!),
             )
           ],
         ),
