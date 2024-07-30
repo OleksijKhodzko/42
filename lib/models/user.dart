@@ -18,8 +18,8 @@ class UserData {
   factory UserData.fromJson(json) => UserData(
         uid: json['uid'],
         courses: json['courses']
-            .map((Map<String, dynamic> course) => Course.fromJson(course))
-            .toList(),
+            ?.map((Map<String, dynamic> course) => Course.fromJson(course))
+            ?.toList(),
         // courses: snapshot.get('courses').map((String uid) async {
         //   _courseFromSnapshot(await coursesCollection.doc(uid).get());
         // }),

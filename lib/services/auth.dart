@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:fortytwo/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fortytwo/services/database.dart';
 
 class AuthService {
   // var which represents auth for current session
@@ -30,9 +31,14 @@ class AuthService {
 
   Future<UserObject?> createUserWithEmailAndPassword(
       String email, String password) async {
-    return _userFromFirebaseUser((await _auth.createUserWithEmailAndPassword(
-            email: email, password: password))
+    UserObject? user = _userFromFirebaseUser((await _auth
+            .createUserWithEmailAndPassword(email: email, password: password))
         .user);
+    if (user == null) {
+      return null;
+    }
+    UserDatabase(uid: user.uid).updateUserData(null, false);
+    return user;
   }
 
   Future<void> signOut() async {

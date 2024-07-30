@@ -68,14 +68,16 @@ class UserDatabase {
     doc = FirebaseFirestore.instance.collection('users').doc(uid);
   }
 
-  Future<void> updateUserData(List<Course>? courses, bool premium) async {
-    return await doc
-        .set(UserData(uid: uid, premium: premium, courses: courses).toJson());
+  Future<void> updateUserData(List<Course>? courses, bool premium,
+      {String? avatarUrl}) async {
+    return await doc.set(UserData(
+            uid: uid, premium: premium, courses: courses, avatarUrl: avatarUrl)
+        .toJson());
   }
 
   Stream<UserData?> get userData {
     return doc.snapshots().map((snapshot) {
-      if (!snapshot.exists) {
+      if (!snapshot.exists || snapshot.data() == null) {
         log('User not found: $uid');
         return null;
       }

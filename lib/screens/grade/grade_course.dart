@@ -53,7 +53,13 @@ class _GradeCourseState extends State<GradeCourse> {
                 // );
                 return gradeInstance.courses == null
                     ? const Text('no course data')
-                    : CourseTile(course: gradeInstance.courses![index]);
+                    : CourseTile(
+                        course: gradeInstance.courses![index],
+                        onTap: () => Navigator.of(context).pushNamed(
+                          '/course_preview',
+                          arguments: gradeInstance.courses![index],
+                        ),
+                      );
               },
             );
           }
