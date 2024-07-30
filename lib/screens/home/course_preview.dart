@@ -24,6 +24,20 @@ class _CoursePreviewState extends State<CoursePreview> {
     return Scaffold(
       appBar: AppBar(
         title: Text(course.title),
+        actions: [
+          ElevatedButton(
+            child: const Text('Почати'),
+            // TODO: when this button is pressed, course should be
+            // added to user's courses. When user opens app, his last
+            // course page should be shown on his current lesson
+            // (current lesson is stored in course.progress)
+            // from there he can he able to go to the list of all his taken
+            // courses. If he presses find button in this mode, he should
+            // get an option to go to Grades page
+            onPressed: () {},
+          ),
+          const SizedBox(width: 20),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),

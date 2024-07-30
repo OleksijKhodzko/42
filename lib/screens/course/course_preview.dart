@@ -23,7 +23,14 @@ class _CoursePreviewState extends State<CoursePreview> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(course.title),
+        title: Padding(
+          // you can forcefully translate values left side using Transform
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(course.title),
+        ),
+        centerTitle: false,
+        titleSpacing: 0.0,
+        leadingWidth: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
