@@ -20,8 +20,8 @@ class CourseData {
       title: json['title'],
       description: json['description'],
       content: json['content']
-          ?.map((json) => CourseSection.fromJson(json))
-          ?.toList(),
+          ?.map<CourseSection>((json) => CourseSection.fromJson(json))
+          ?.toList() as List<CourseSection>?,
     );
   }
 }

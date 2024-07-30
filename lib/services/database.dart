@@ -6,6 +6,47 @@ import 'package:fortytwo/models/grade.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/models/user.dart';
 
+// TODO: change this function
+Future<Map<String, dynamic>?> courseJsonFromSnapshot(
+    DocumentSnapshot courseSnapshot) async {
+  Map<String, dynamic> courseJson =
+      courseSnapshot.data() as Map<String, dynamic>;
+  if (courseJson.containsKey('content')) {
+    List<Map<String, dynamic>> content = [];
+    // courseJson['content'] is a map like this:
+    // {
+    // '1': {
+    //   lessons: [_jsonDocumentSnapshot1, _jsonDocumentSnapshot2, ...],
+    //   title: "Розділ 1"
+    //   description: "Основні поняття в мові Swift"
+    //  }
+    // '2': {
+    //  ...
+    // }, ...
+    // }
+    // it is map instead of 2d array, because nested arrays
+    // are impossible in firebase
+    for (String sectionIndex in courseJson['content'].keys) {
+      List<Map<String, dynamic>> lessonsList = [];
+      final lessons = courseJson['content'][sectionIndex]['lessons'];
+      for (int i = 0; i < lessons.length; i++) {
+        lessonsList
+            .add((await lessons[i].get()).data() as Map<String, dynamic>);
+      }
+      Map<String, dynamic> section = courseJson['content'][sectionIndex];
+      section['lessons'] = lessonsList;
+      content.add(section);
+    }
+    courseJson['content'] = content;
+    return courseJson;
+  }
+  return {
+    'title': courseJson['title'],
+    'description': courseJson['description'],
+    'content': null,
+  };
+}
+
 class DatabaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
@@ -57,55 +98,25 @@ class GradeDatabase {
         log('Grade not found: $uid');
         yield null;
       } else {
+        // Example of gradeJson:
+        // {
+        //  'courses': [_jsonDocumentSnapshot1, _jsonDocumentSnapshot2, ...],
+        //  'grade': 5,
+        // }
         Map<String, dynamic> gradeJson =
             gradeSnapshot.data() as Map<String, dynamic>;
-        // gradeJson['courses'] = gradeJson['courses']
-        //     .map((course) async => await course.get())
-        //     .toList();
-        List<Map<String, dynamic>> coursesList = [];
-        // for (DocumentReference courseReference in gradeJson['courses']) {
+        List<Map<String, dynamic>?> coursesList = [];
         for (int i = 0; i < gradeJson['courses'].length; i++) {
-          DocumentReference courseReference = gradeJson['courses'][i];
-          final courseJson = await courseReference.get();
-          List<List<DocumentSnapshot>> content = [];
-          // for (int sectionIndex in courseJson['content']) {
-          for (int j = 0; j < courseJson['content'].length; j++) {
-            String sectionIndex = courseJson['content'].keys.toList()[j];
-            List<DocumentSnapshot> lessonsList = [];
-            for (DocumentReference lessonReference in courseJson['content']
-                [sectionIndex]['lessons']) {
-              lessonsList.add(await lessonReference.get());
-            }
-            content.add(lessonsList);
-          }
-          coursesList.add({
-            'title': courseJson['title'],
-            'description': courseJson['description'],
-            'content': content
-          });
+          DocumentReference courseReference =
+              gradeJson['courses'][i] as DocumentReference;
+          DocumentSnapshot courseSnapshot = await courseReference.get();
+          coursesList.add(await courseJsonFromSnapshot(courseSnapshot));
         }
         gradeJson['courses'] = coursesList;
-
-        // gradeJson['courses'] = gradeJson['courses']
-        //     .map((_Doc))
-        //     .toList();
         yield Grade.fromJson(gradeJson);
       }
     }
   }
-
-  //   return doc.snapshots().map((snapshot) {
-  //     if (!snapshot.exists) {
-  //       log('Grade not found: $uid');
-  //       return null;
-  //     }
-  //     Map<String, dynamic> gradeJson = snapshot.data() as Map<String, dynamic>;
-  //     for (DocumentReference course in gradeJson['courses']) {
-  //       gradeJson['courses'] =  course.get();
-  //     }
-  //     return Grade.fromJson(gradeJson);
-  //   });
-  // }
 }
 
 class CourseDatabase {
@@ -122,34 +133,9 @@ class CourseDatabase {
         log('Course not found: $uid');
         yield null;
       } else {
-        Map<String, dynamic> courseJson =
-            courseSnapshot.data() as Map<String, dynamic>;
-        if (courseJson.containsValue('content')) {
-          List<List<Map<String, dynamic>>> content = [];
-          // courseJson['content'] is a map like this:
-          // {
-          // '1': {
-          //   lessons: [_jsonDocumentSnapshot1, _jsonDocumentSnapshot2, ...],
-          //   title: "Розділ 1"
-          //  }
-          // '2': {
-          //  ...
-          // }, ...
-          // }
-          // it is map instead of 2d array, because nested arrays
-          // are impossible in firebase
-          for (String sectionIndex in courseJson['content']) {
-            List<Map<String, dynamic>> lessonsList = [];
-            for (DocumentReference lessonReference in courseJson['content']
-                [sectionIndex]['lessons']) {
-              lessonsList.add(
-                  (await lessonReference.get()).data() as Map<String, dynamic>);
-            }
-            content.add(lessonsList);
-          }
-          courseJson['content'] = content;
-        }
-        yield CourseData.fromJson(courseJson);
+        Map<String, dynamic>? courseJson =
+            await courseJsonFromSnapshot(courseSnapshot);
+        yield courseJson == null ? null : CourseData.fromJson(courseJson);
       }
     }
   }
