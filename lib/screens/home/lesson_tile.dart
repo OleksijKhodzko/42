@@ -9,6 +9,8 @@ class LessonTile extends StatelessWidget {
   Widget build(BuildContext context) => ListTile(
         title: Text(lesson.title),
         subtitle: Text(lesson.description ?? 'Поки немає опису'),
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushNamed('/lesson_page', arguments: lesson);
+        },
       );
 }

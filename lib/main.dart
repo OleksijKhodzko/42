@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/screens/home/course_preview.dart';
 import 'package:fortytwo/screens/home/grade_course.dart';
+import 'package:fortytwo/screens/home/lesson_page.dart';
 import 'package:fortytwo/screens/wrapper.dart';
 import 'package:fortytwo/services/auth.dart';
 import 'package:fortytwo/shared/loading.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MainView(),
         '/grade_courses': (context) => const GradeCourse(),
         '/course_preview': (context) => const CoursePreview(),
+        '/lesson_page': (context) => const LessonPage(),
       },
     );
   }
