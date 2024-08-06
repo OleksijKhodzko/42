@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/user.dart';
-import 'package:fortytwo/shared/constants.dart';
 import 'package:provider/provider.dart';
 
 class UserAvatar extends StatefulWidget {
@@ -19,6 +19,18 @@ class UserAvatar extends StatefulWidget {
 }
 
 class _UserAvatarState extends State<UserAvatar> {
+  Future<String?> getDefaultUserAvatarUrl() async {
+    try {
+      return await FirebaseStorage.instance
+          .ref()
+          .child('/user.png')
+          .getDownloadURL();
+    } catch (e) {
+      log("Couldn't load avatar: $e.toString()");
+      return null;
+    }
+  }
+
   String? avatarUrl;
   @override
   Widget build(BuildContext context) {

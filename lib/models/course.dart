@@ -1,7 +1,7 @@
-import 'package:fortytwo/screens/course/course_section.dart';
-
 // represents global course data,
 // common to all users
+import 'package:fortytwo/models/course_section.dart';
+
 class CourseData {
   final String title;
   final String? description;

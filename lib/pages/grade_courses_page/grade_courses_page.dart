@@ -1,18 +1,18 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/grade.dart';
-import 'package:fortytwo/screens/course/course_tile.dart';
+import 'package:fortytwo/pages/grade_courses_page/course_tile.dart';
 import 'package:fortytwo/services/database.dart';
-import 'package:fortytwo/shared/loading.dart';
+import 'package:fortytwo/shared_widgets/loading_widget.dart';
 
-class GradeCourse extends StatefulWidget {
-  const GradeCourse({super.key});
+class GradeCoursesPage extends StatefulWidget {
+  const GradeCoursesPage({super.key});
 
   @override
-  State<GradeCourse> createState() => _GradeCourseState();
+  State<GradeCoursesPage> createState() => _GradeCoursesPageState();
 }
 
-class _GradeCourseState extends State<GradeCourse> {
+class _GradeCoursesPageState extends State<GradeCoursesPage> {
   @override
   Widget build(BuildContext context) {
     final String? grade = ModalRoute.of(context)?.settings.arguments as String?;
@@ -55,8 +55,9 @@ class _GradeCourseState extends State<GradeCourse> {
                     ? const Text('no course data')
                     : CourseTile(
                         course: gradeInstance.courses![index],
-                        onTap: () => Navigator.of(context).pushNamed(
-                          '/course_preview',
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/course_content',
                           arguments: gradeInstance.courses![index],
                         ),
                       );

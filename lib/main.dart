@@ -1,23 +1,29 @@
-import 'dart:developer';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fortytwo/models/user.dart';
-import 'package:fortytwo/screens/grade/grade_course.dart';
-import 'package:fortytwo/screens/home/course_preview.dart';
-import 'package:fortytwo/screens/lesson/lesson_page.dart';
-import 'package:fortytwo/screens/wrapper.dart';
-import 'package:fortytwo/services/auth.dart';
-import 'package:fortytwo/shared/loading.dart';
-import 'package:provider/provider.dart';
-import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:fortytwo/pages/course_content_page/course_content_page.dart';
+import 'package:fortytwo/pages/error_page/error_page.dart';
+import 'package:fortytwo/pages/grade_courses_page/grade_courses_page.dart';
+import 'package:fortytwo/pages/home_page/home_page.dart';
+import 'package:fortytwo/pages/log_in_page/log_in_page.dart';
+import 'package:fortytwo/pages/sign_up_page/sign_up_page.dart';
+import 'package:fortytwo/wrappers/wrapper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> clearPrefs() async {
+  if (kDebugMode) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+}
 
 void main() {
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MyApp(),
-  ));
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,49 +34,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
+      builder: (context, widget) => DevicePreview.appBuilder(
+        context,
+        widget == null ? const ErrorPage(code: '9951') : Wrapper(child: widget),
+      ),
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      initialRoute: '/',
       routes: {
-        '/': (context) => const MainView(),
-        '/grade_courses': (context) => const GradeCourse(),
-        '/course_preview': (context) => const CoursePreview(),
-        '/lesson_page': (context) => const LessonPage(),
+        '/': (context) => const HomePage(),
+        '/log_in': (context) => const LogInPage(),
+        '/sign_up': (context) => const SignUpPage(),
+        '/grade_courses': (context) => const GradeCoursesPage(),
+        '/course_content': (context) => const CourseContentPage(),
       },
     );
-  }
-}
-
-class MainView extends StatefulWidget {
-  const MainView({super.key});
-  @override
-  State<MainView> createState() => _MainViewState();
-}
-
-class _MainViewState extends State<MainView> {
-  bool loading = true;
-
-  _MainViewState() {
-    log('loading firebase');
-    WidgetsFlutterBinding.ensureInitialized();
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).then((value) => setState(() {
-          loading = false;
-          log('loaded firebase');
-        }));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // return Text('MyApp');
-    return loading
-        ? const Loading()
-        : StreamProvider<UserObject?>.value(
-            initialData: null,
-            value: AuthService().user,
-            child: const Wrapper(),
-          );
   }
 }

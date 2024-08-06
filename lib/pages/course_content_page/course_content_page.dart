@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/course.dart';
-import 'package:fortytwo/screens/course/course_content.dart';
+import 'package:fortytwo/pages/course_content_page/section_tile.dart';
 
-class CoursePreview extends StatefulWidget {
-  const CoursePreview({super.key});
+class CourseContentPage extends StatefulWidget {
+  const CourseContentPage({super.key});
 
   @override
-  State<CoursePreview> createState() => _CoursePreviewState();
+  State<CourseContentPage> createState() => _CourseContentPageState();
 }
 
-class _CoursePreviewState extends State<CoursePreview> {
+class _CourseContentPageState extends State<CourseContentPage> {
   @override
   Widget build(BuildContext context) {
     final CourseData? course =
@@ -23,14 +23,14 @@ class _CoursePreviewState extends State<CoursePreview> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          // you can forcefully translate values left side using Transform
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Text(course.title),
-        ),
-        centerTitle: false,
-        titleSpacing: 0.0,
-        leadingWidth: 0,
+        // title: Padding(
+        //   // you can forcefully translate values left side using Transform
+        //   padding: const EdgeInsets.only(left: 40.0),
+        title: Text(course.title),
+        // ),
+        // centerTitle: false,
+        // titleSpacing: 0.0,
+        // leadingWidth: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -56,7 +56,11 @@ class _CoursePreviewState extends State<CoursePreview> {
               // child: Text(course.toJson().toString()),
               child: course.content == null
                   ? const Text('Поки у цього курсу немає змісту')
-                  : CourseContent(content: course.content!),
+                  : ListView(
+                      children: course.content!
+                          .map((section) => SectionTile(section: section))
+                          .toList(),
+                    ),
             )
           ],
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fortytwo/screens/course/course_section.dart';
-import 'package:fortytwo/screens/course/lesson_tile.dart';
+import 'package:fortytwo/models/course_section.dart';
+import 'package:fortytwo/pages/course_content_page/lesson_tile.dart';
 
 class SectionTile extends StatelessWidget {
   final CourseSection section;

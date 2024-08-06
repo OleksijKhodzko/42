@@ -2,31 +2,35 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fortytwo/models/user.dart';
+import 'package:fortytwo/pages/home_page/home_page.dart';
 import 'package:fortytwo/services/auth.dart';
 import 'package:fortytwo/shared/constants.dart';
-import 'package:fortytwo/shared/loading.dart';
+import 'package:fortytwo/shared_widgets/loading_widget.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.controller});
-  final PageController controller;
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LogInPage> createState() => _LogInPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LogInPageState extends State<LogInPage> {
   bool loading = false;
   bool _obscurePassword = true;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
-  final _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   String error = '';
 
   @override
   Widget build(BuildContext context) {
+    UserData? user = Provider.of<UserData?>(context);
+    AuthService auth = Provider.of<AuthService>(context);
+    if (user != null) return const HomePage();
     return loading
         ? const Loading()
         : Scaffold(
@@ -180,8 +184,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() => loading = true);
                                     try {
                                       log('signing in');
-                                      final credential = await _auth
-                                          .signInWithEmailAndPassword(
+                                      final credential =
+                                          await auth.signInWithEmailAndPassword(
                                               _emailController.value.text,
                                               _passController.value.text);
                                       log('signing in done');
@@ -262,10 +266,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  widget.controller.animateToPage(1,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.ease);
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/sign_up');
                                 },
                                 child: const Text(
                                   'Sign Up',

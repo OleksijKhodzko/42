@@ -4,16 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/services/auth.dart';
 import 'package:fortytwo/shared/constants.dart';
-import 'package:fortytwo/shared/loading.dart';
+import 'package:fortytwo/shared_widgets/loading_widget.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key, required this.controller});
-  final PageController controller;
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpPageState extends State<SignUpPage> {
   bool loading = false;
   bool _obscurePassword = true;
 
@@ -249,10 +248,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  widget.controller.animateToPage(0,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.ease);
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/log_in');
                                 },
                                 child: const Text(
                                   'Log In ',

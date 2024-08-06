@@ -5,8 +5,8 @@ import 'package:fortytwo/models/course.dart';
 import 'package:fortytwo/models/grade.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/models/user.dart';
+import 'package:fortytwo/services/cache.dart';
 
-// TODO: change this function
 Future<Map<String, dynamic>?> courseJsonFromSnapshot(
     DocumentSnapshot courseSnapshot) async {
   Map<String, dynamic> courseJson =
@@ -67,22 +67,27 @@ class UserDatabase {
   UserDatabase({required this.uid}) {
     doc = FirebaseFirestore.instance.collection('users').doc(uid);
   }
-
   Future<void> updateUserData(List<Course>? courses, bool premium,
       {String? avatarUrl}) async {
-    return await doc.set(UserData(
-            uid: uid, premium: premium, courses: courses, avatarUrl: avatarUrl)
-        .toJson());
+    UserData user = UserData(
+        uid: uid, premium: premium, courses: courses, avatarUrl: avatarUrl);
+    await doc.set(user.toJson());
+    CacheService().cacheUserData(user);
   }
 
-  Stream<UserData?> get userData {
-    return doc.snapshots().map((snapshot) {
-      if (!snapshot.exists || snapshot.data() == null) {
-        log('User not found: $uid');
-        return null;
-      }
-      return UserData.fromJson(snapshot.data());
-    });
+  Stream<UserData?> get userData async* {
+    UserData? cachedUserData = await CacheService().user;
+    if (cachedUserData != null) {
+      yield cachedUserData;
+    } else {
+      yield* doc.snapshots().map((snapshot) {
+        if (!snapshot.exists || snapshot.data() == null) {
+          log('User not found: $uid');
+          return null;
+        }
+        return UserData.fromJson(snapshot.data());
+      });
+    }
   }
 }
 

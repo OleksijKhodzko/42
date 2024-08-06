@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:fortytwo/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fortytwo/services/cache.dart';
 import 'package:fortytwo/services/database.dart';
 
+// TODO: add caching to authentication
 class AuthService {
   // var which represents auth for current session
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   UserObject? _userFromFirebaseUser(User? user) {
     try {
@@ -19,8 +21,14 @@ class AuthService {
   }
 
   // stream which provides user object when auth state is changed
-  Stream<UserObject?> get user =>
-      _auth.authStateChanges().map(_userFromFirebaseUser);
+  Stream<UserObject?> get user async* {
+    UserData? cachedUser = await CacheService().user;
+    if (cachedUser == null) {
+      yield* _auth.authStateChanges().map(_userFromFirebaseUser);
+    } else {
+      yield UserObject(uid: cachedUser.uid);
+    }
+  }
 
   Future<UserObject?> signInWithEmailAndPassword(
       String email, String password) async {
