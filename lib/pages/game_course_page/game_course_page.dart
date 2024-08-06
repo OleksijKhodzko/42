@@ -5,6 +5,10 @@ class GameCoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('GameCoursePage');
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('GameCoursePage'),
+      ),
+    );
   }
 }

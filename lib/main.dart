@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fortytwo/pages/course_content_page/course_content_page.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
+import 'package:fortytwo/pages/game_course_page/game_course_page.dart';
 import 'package:fortytwo/pages/grade_courses_page/grade_courses_page.dart';
 import 'package:fortytwo/pages/home_page/home_page.dart';
 import 'package:fortytwo/pages/log_in_page/log_in_page.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/sign_up': (context) => const SignUpPage(),
         '/grade_courses': (context) => const GradeCoursesPage(),
         '/course_content': (context) => const CourseContentPage(),
+        '/game_course_page': (context) => const GameCoursePage(),
       },
     );
   }

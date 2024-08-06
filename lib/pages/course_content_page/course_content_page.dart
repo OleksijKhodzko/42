@@ -27,6 +27,20 @@ class _CourseContentPageState extends State<CourseContentPage> {
         //   // you can forcefully translate values left side using Transform
         //   padding: const EdgeInsets.only(left: 40.0),
         title: Text(course.title),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/game_course_page',
+                arguments: course,
+              );
+            },
+            child: const Icon(Icons.play_lesson),
+          ),
+          const SizedBox(width: 30),
+        ],
+
         // ),
         // centerTitle: false,
         // titleSpacing: 0.0,
