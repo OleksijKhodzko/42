@@ -5,8 +5,10 @@ import 'package:fortytwo/pages/course_content_page/course_content_page.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
 import 'package:fortytwo/pages/game_course_page/game_course_page.dart';
 import 'package:fortytwo/pages/grade_courses_page/grade_courses_page.dart';
+import 'package:fortytwo/pages/grades_page/grades_page.dart';
 import 'package:fortytwo/pages/home_page/home_page.dart';
 import 'package:fortytwo/pages/log_in_page/log_in_page.dart';
+import 'package:fortytwo/pages/saved_courses_page/saved_courses_page.dart';
 import 'package:fortytwo/pages/sign_up_page/sign_up_page.dart';
 import 'package:fortytwo/wrappers/wrapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
         '/grade_courses': (context) => const GradeCoursesPage(),
         '/course_content': (context) => const CourseContentPage(),
         '/game_course_page': (context) => const GameCoursePage(),
+        '/saved_courses': (context) => const SavedCoursesPage(),
+        '/grades': (context) => const GradesPage(),
       },
     );
   }

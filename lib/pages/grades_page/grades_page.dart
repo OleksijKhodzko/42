@@ -33,25 +33,16 @@ class _GradesPageState extends State<GradesPage> {
                 child: InkWell(
                   customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/saved_courses');
+                  },
                   child: const SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Icon(Icons.search, size: 40)),
+                      width: 48, height: 48, child: Icon(Icons.save, size: 40)),
                 ),
               ),
               const SizedBox(
                 width: 15,
               ),
-              // Expanded(
-              //   flex: 20,
-              //   child: IconButton(
-              //     onPressed: () {
-              //       _auth.signOut();
-              //     },
-              //     icon: const Icon(Icons.search, size: 40),
-              //   ),
-              // )
             ],
           ),
         ),
