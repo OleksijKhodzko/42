@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fortytwo/shared_widgets/avatar_widget.dart';
 
 class ProfilePanel extends StatelessWidget {
   const ProfilePanel({super.key});
@@ -13,10 +14,7 @@ class ProfilePanel extends StatelessWidget {
           backgroundColor: Colors.blue,
           leading: const Padding(
             padding: EdgeInsets.only(left: 10, bottom: 0),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('images/default_user_avatar.png'),
-            ),
+            child: UserAvatar(),
           ),
           title: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
