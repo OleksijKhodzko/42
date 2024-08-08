@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/pages/grades_page/grade_tile.dart';
 import 'package:fortytwo/shared_widgets/avatar_widget.dart';
+import 'package:fortytwo/shared_widgets/profile_panel/profile_panel.dart';
 
 class GradesPage extends StatefulWidget {
   const GradesPage({super.key});
@@ -10,9 +11,14 @@ class GradesPage extends StatefulWidget {
 }
 
 class _GradesPageState extends State<GradesPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) => Scaffold(
+        key: _scaffoldKey,
+        drawer: const ProfilePanel(),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           scrolledUnderElevation: 0,
           title: Row(
             children: [
@@ -22,7 +28,9 @@ class _GradesPageState extends State<GradesPage> {
               InkWell(
                   customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  onTap: () {},
+                  onTap: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
                   child: const UserAvatar()),
               Expanded(
                 flex: 60,
