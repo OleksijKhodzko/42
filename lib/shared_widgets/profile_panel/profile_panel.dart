@@ -29,56 +29,39 @@ class ProfilePanel extends StatelessWidget {
                 ),
               ]),
         ),
+        // TODO: implement pages for profile panel
         body: ListView(
           padding: const EdgeInsets.only(top: 13),
           children: [
             ListTile(
               leading: const Icon(Icons.account_circle, size: 30),
               title: const Text('Профіль'),
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed('/grades/profile_panel/profile');
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.school, size: 30),
               title: const Text('Список курсів'),
-              onTap: () {
-                // TO DO
-                Navigator.pop(context);
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.query_stats, size: 30),
               title: const Text('Статистика'),
-              onTap: () {
-                // TO DO
-                Navigator.pop(context);
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.monetization_on, size: 30),
               title: const Text('Преміум підписка'),
-              onTap: () {
-                // TO DO
-                Navigator.pop(context);
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.settings, size: 30),
               title: const Text('Налаштування'),
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed('/grades/profile_panel/settings');
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.question_mark, size: 30),
               title: const Text('Інформація'),
-              onTap: () {
-                // TO DO
-                Navigator.pop(context);
-              },
+              onTap: () {},
             ),
           ],
         ),
