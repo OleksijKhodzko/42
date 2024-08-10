@@ -4,6 +4,8 @@ import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
 import 'package:fortytwo/pages/grade_courses_page/course_tile.dart';
 import 'package:fortytwo/shared_widgets/avatar_widget.dart';
+import 'package:fortytwo/shared_widgets/centered_text.dart';
+import 'package:fortytwo/shared_widgets/vertical_pagging.dart';
 import 'package:provider/provider.dart';
 
 class SavedCoursesPage extends StatefulWidget {
@@ -20,36 +22,17 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserData?>(context);
     if (user == null) {
-      bodyWidget = Text('You should be registered to access this page.');
+      bodyWidget = const Text('You should be registered to access this page.');
     } else if (user.courses == null) {
       // TODO: create a shared widget to display text in
       //  a nice way in the center of the screen
-      bodyWidget = Center(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 20,
-              child: Container(),
-            ),
-            const Expanded(
-              flex: 20,
-              child: Text(
-                'У вас поки немає обраних курсів',
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-            Expanded(
-              flex: 20,
-              child: Container(),
-            ),
-          ],
-        ),
-      );
+      bodyWidget = const VertiacalPadding(
+          child:
+              CenteredTextPageBody(text: 'У вас поки немає обраних курсів.'));
     } else {
       bodyWidget = ListView(
         children: user.courses!
-            .map((Course course) =>
-                CourseTile(course: course.data, onTap: () {}))
+            .map((Course course) => CourseTile(course: course.data))
             .toList(), //as List<Widget>,
       );
     }
@@ -89,7 +72,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           ],
         ),
       ),
-      body: bodyWidget ?? ErrorPage(code: '23456'),
+      body: bodyWidget ?? const ErrorPage(code: '23456'),
     );
   }
 }

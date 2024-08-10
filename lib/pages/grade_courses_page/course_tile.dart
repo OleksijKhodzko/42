@@ -3,8 +3,7 @@ import 'package:fortytwo/models/course.dart';
 
 class CourseTile extends StatelessWidget {
   final CourseData course;
-  final Function onTap;
-  const CourseTile({super.key, required this.course, required this.onTap});
+  const CourseTile({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +15,11 @@ class CourseTile extends StatelessWidget {
             : Text(course.description!),
         trailing: const Icon(Icons.chevron_right),
       ),
-      onTap: () {
-        onTap();
-      },
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/course_content',
+        arguments: course,
+      ),
     );
   }
 }

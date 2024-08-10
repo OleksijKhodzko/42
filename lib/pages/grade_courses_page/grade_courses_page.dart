@@ -55,11 +55,6 @@ class _GradeCoursesPageState extends State<GradeCoursesPage> {
                     ? const Text('no course data')
                     : CourseTile(
                         course: gradeInstance.courses![index],
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/course_content',
-                          arguments: gradeInstance.courses![index],
-                        ),
                       );
               },
             );
