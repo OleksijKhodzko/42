@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/services/database.dart';
-import 'package:fortytwo/wrappers/user_data_provider_object.dart';
+import 'package:fortytwo/wrappers/user_data_provider_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class UserDatabseProviderWrapper extends StatelessWidget {

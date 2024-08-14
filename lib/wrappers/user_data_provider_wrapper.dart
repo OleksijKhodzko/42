@@ -19,6 +19,10 @@ class _UserDataProviderWrapperState extends State<UserDataProviderWrapper> {
     return StreamProvider<UserData?>.value(
       value: database.userData,
       initialData: null,
+      catchError: (_, error) {
+        print('Error in UserDataProviderWrapper: ${error.toString()}');
+        return null;
+      },
       child: widget.child,
     );
   }

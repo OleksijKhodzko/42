@@ -45,7 +45,7 @@ class AuthService {
     if (user == null) {
       return null;
     }
-    UserDatabase(uid: user.uid).updateUserData(null, false);
+    UserDatabase(uid: user.uid).updateUserData(courses: null, premium: false);
     return user;
   }
 

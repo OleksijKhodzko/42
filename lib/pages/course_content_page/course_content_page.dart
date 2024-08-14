@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/course.dart';
+import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/pages/course_content_page/section_tile.dart';
+import 'package:fortytwo/services/database.dart';
+import 'package:provider/provider.dart';
 
 class CourseContentPage extends StatefulWidget {
   const CourseContentPage({super.key});
@@ -30,6 +33,29 @@ class _CourseContentPageState extends State<CourseContentPage> {
         actions: [
           ElevatedButton(
             onPressed: () {
+              // updateUserData and go to the corresponding gamified page
+              final user = Provider.of<UserData?>(context, listen: false);
+              if (user != null) {
+                final courseString = course.toString();
+                bool courseSaved = false;
+                for (Course userCourse in user.courses ?? []) {
+                  if (courseString == userCourse.toString()) courseSaved = true;
+                }
+                if (courseSaved) {
+                  final database =
+                      Provider.of<UserDatabase>(context, listen: false);
+                  database.updateUserData(courses: [
+                    Course(
+                      uid: DateTime.now().millisecondsSinceEpoch.toString(),
+                      data: course,
+                      progress: CourseProgress(),
+                    ),
+                    // this means that if user.courses exist, all its content is
+                    // added here
+                    ...?user.courses,
+                  ], premium: user.premium);
+                }
+              }
               Navigator.pushNamed(
                 context,
                 '/game_course_page',

@@ -15,14 +15,14 @@ class UserData {
   UserData(
       {required this.uid, this.courses, required this.premium, this.avatarUrl});
 
+  // TODO: fix the processing of the 'courses' field
+  // TODO: somehove implement catching errors
+  //  (probably in the databse class, not here)
   factory UserData.fromJson(json) => UserData(
         uid: json['uid'],
         courses: json['courses']
-            ?.map((Map<String, dynamic> course) => Course.fromJson(course))
+            ?.map<Course>((course) => Course.fromJson(course))
             ?.toList(),
-        // courses: snapshot.get('courses').map((String uid) async {
-        //   _courseFromSnapshot(await coursesCollection.doc(uid).get());
-        // }),
         premium: json['premium'],
         avatarUrl: json['avatarUrl'],
       );

@@ -68,7 +68,7 @@ class CourseProgress {
   factory CourseProgress.fromJson(json) => CourseProgress(
       overallProgress: json['overallProgress'],
       currentLesson: json['currentLesson'],
-      lessons: json['lessons'].map(
+      lessons: json['lessons']?.map(
         (index, lesson) => MapEntry(index, lesson.toJson()),
       ));
 

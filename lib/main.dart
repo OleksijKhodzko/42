@@ -22,9 +22,11 @@ Future<void> clearPrefs() async {
 }
 
 void main() {
+  const releaseMode = kReleaseMode;
+  // const releaseMode = true;
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: !releaseMode,
       builder: (context) => const MyApp(),
     ),
   );

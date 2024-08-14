@@ -40,9 +40,15 @@ class _UserAvatarState extends State<UserAvatar> {
     if (avatarUrl == null) {
       getDefaultUserAvatarUrl().then((value) {
         if (value != null) {
-          setState(() {
-            avatarUrl = value;
-          });
+          try {
+            if (mounted) {
+              setState(() {
+                avatarUrl = value;
+              });
+            }
+          } catch (e) {
+            print('Error in avatar widget: ${e.toString()}');
+          }
         }
         // TODO remake this
         // reload the widget and try to get default_user_avatar from firebase

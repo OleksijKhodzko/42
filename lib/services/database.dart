@@ -67,8 +67,9 @@ class UserDatabase {
   UserDatabase({required this.uid}) {
     doc = FirebaseFirestore.instance.collection('users').doc(uid);
   }
-  Future<void> updateUserData(List<Course>? courses, bool premium,
-      {String? avatarUrl}) async {
+  // TODO: remake this somehow so that premium parameter is not required
+  Future<void> updateUserData(
+      {List<Course>? courses, required bool premium, String? avatarUrl}) async {
     UserData user = UserData(
         uid: uid, premium: premium, courses: courses, avatarUrl: avatarUrl);
     await doc.set(user.toJson());
@@ -76,17 +77,22 @@ class UserDatabase {
   }
 
   Stream<UserData?> get userData async* {
-    UserData? cachedUserData = await CacheService().user;
-    if (cachedUserData != null) {
-      yield cachedUserData;
-    } else {
-      yield* doc.snapshots().map((snapshot) {
-        if (!snapshot.exists || snapshot.data() == null) {
-          log('User not found: $uid');
-          return null;
-        }
-        return UserData.fromJson(snapshot.data());
-      });
+    try {
+      UserData? cachedUserData = await CacheService().user;
+      if (cachedUserData != null) {
+        yield cachedUserData;
+      } else {
+        yield* doc.snapshots().map((snapshot) {
+          if (!snapshot.exists || snapshot.data() == null) {
+            log('User not found: $uid');
+            return null;
+          }
+          return UserData.fromJson(snapshot.data());
+        });
+      }
+    } catch (e) {
+      log('Error in databse Stream<UserData?> userData in UserDatabase:\n$e');
+      print('Error in databse Stream<UserData?> userData in UserDatabase:\n$e');
     }
   }
 }
