@@ -21,6 +21,9 @@ class CacheService {
     return user == null ? null : UserData.fromJson(user);
   }
 
+  Future<void> cacheLastCourse(Course course) =>
+      _setCache('lastCourse', course.toJson());
+
   Future<Course?> get lastCourse async {
     Map<String, dynamic>? lastCourse = await _getCache('lastCourse');
     return lastCourse == null ? null : Course.fromJson(lastCourse);

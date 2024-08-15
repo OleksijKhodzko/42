@@ -30,10 +30,13 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           child:
               CenteredTextPageBody(text: 'У вас поки немає обраних курсів.'));
     } else {
-      bodyWidget = ListView(
-        children: user.courses!
-            .map((Course course) => CourseTile(course: course.data))
-            .toList(), //as List<Widget>,
+      bodyWidget = Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: ListView(
+          children: user.courses!
+              .map((Course course) => CourseTile(course: course.data))
+              .toList(), //as List<Widget>,
+        ),
       );
     }
 

@@ -73,7 +73,7 @@ class UserDatabase {
     UserData user = UserData(
         uid: uid, premium: premium, courses: courses, avatarUrl: avatarUrl);
     await doc.set(user.toJson());
-    CacheService().cacheUserData(user);
+    await CacheService().cacheUserData(user);
   }
 
   Stream<UserData?> get userData async* {

@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               return const SavedCoursesPage();
             }
           } else {
-            return const GameCoursePage();
+            return GameCoursePage(lastCourse: lastCourse);
           }
         });
   }

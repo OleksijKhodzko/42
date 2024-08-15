@@ -1,6 +1,7 @@
 // represents global course data,
 // common to all users
 import 'package:fortytwo/models/course_section.dart';
+import 'package:fortytwo/models/course_progress.dart';
 
 class CourseData {
   final String title;
@@ -44,37 +45,5 @@ class Course {
         'uid': uid,
         'data': data.toJson(),
         'progress': progress.toJson(),
-      };
-}
-
-// TODO: add lesson statistics
-class LessonStatistics {
-  final int? score;
-  LessonStatistics({this.score});
-
-  Map<String, dynamic> toJson() => {
-        'score': score,
-      };
-}
-
-// TODO: remake this class to add sections
-class CourseProgress {
-  final int? overallProgress; // progress of the course
-  final int? currentLesson;
-  final Map<int, LessonStatistics>? lessons; // statistics for all the lessons
-
-  CourseProgress({this.currentLesson, this.lessons, this.overallProgress});
-
-  factory CourseProgress.fromJson(json) => CourseProgress(
-      overallProgress: json['overallProgress'],
-      currentLesson: json['currentLesson'],
-      lessons: json['lessons']?.map(
-        (index, lesson) => MapEntry(index, lesson.toJson()),
-      ));
-
-  Map<String, dynamic> toJson() => {
-        'overallProgress': overallProgress,
-        'currentLesson': currentLesson,
-        'lessons': lessons?.map((key, value) => MapEntry(key, value.toJson())),
       };
 }

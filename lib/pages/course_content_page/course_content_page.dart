@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/course.dart';
+import 'package:fortytwo/models/course_progress.dart';
 import 'package:fortytwo/models/user.dart';
 import 'package:fortytwo/pages/course_content_page/section_tile.dart';
+import 'package:fortytwo/services/cache.dart';
 import 'package:fortytwo/services/database.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,14 @@ class CourseContentPage extends StatefulWidget {
 }
 
 class _CourseContentPageState extends State<CourseContentPage> {
+  late CacheService cache;
+
+  @override
+  void initState() {
+    super.initState();
+    cache = Provider.of<CacheService>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final CourseData? course =
@@ -35,6 +45,11 @@ class _CourseContentPageState extends State<CourseContentPage> {
             onPressed: () {
               // updateUserData and go to the corresponding gamified page
               final user = Provider.of<UserData?>(context, listen: false);
+              final userCourse = Course(
+                uid: DateTime.now().millisecondsSinceEpoch.toString(),
+                data: course,
+                progress: CourseProgress(),
+              );
               if (user != null) {
                 final courseString = course.toString();
                 bool courseSaved = false;
@@ -45,21 +60,22 @@ class _CourseContentPageState extends State<CourseContentPage> {
                   final database =
                       Provider.of<UserDatabase>(context, listen: false);
                   database.updateUserData(courses: [
-                    Course(
-                      uid: DateTime.now().millisecondsSinceEpoch.toString(),
-                      data: course,
-                      progress: CourseProgress(),
-                    ),
+                    userCourse,
                     // this means that if user.courses exist, all its content is
                     // added here
                     ...?user.courses,
                   ], premium: user.premium);
                 }
               }
+              cache.cacheLastCourse(userCourse);
               Navigator.pushNamed(
                 context,
                 '/game_course_page',
-                arguments: course,
+                arguments: Course(
+                  uid: DateTime.now().millisecondsSinceEpoch.toString(),
+                  data: course,
+                  progress: CourseProgress(),
+                ),
               );
             },
             child: const Icon(Icons.play_lesson),
