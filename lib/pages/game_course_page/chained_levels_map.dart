@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fortytwo/models/course_section.dart';
+import 'package:fortytwo/models/lesson.dart';
+import 'package:fortytwo/pages/game_course_page/lesson_level_map_widget.dart';
+import 'package:fortytwo/pages/game_course_page/section_level_map_widget.dart';
+import 'package:fortytwo/shared_widgets/vertical_pagging.dart';
 
 class ChainedLevelsMap extends StatelessWidget {
+  static const linesColor = Colors.black87;
   static var lines = [
     Stack(
       children: [
@@ -17,7 +21,7 @@ class ChainedLevelsMap extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ],
@@ -36,7 +40,7 @@ class ChainedLevelsMap extends StatelessWidget {
               child: Align(
                 child: Container(
                   width: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ),
@@ -46,7 +50,7 @@ class ChainedLevelsMap extends StatelessWidget {
           child: Container(
             width: 15,
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -56,7 +60,7 @@ class ChainedLevelsMap extends StatelessWidget {
         Align(
           child: Container(
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -69,7 +73,7 @@ class ChainedLevelsMap extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
               const Expanded(
@@ -93,7 +97,7 @@ class ChainedLevelsMap extends StatelessWidget {
               child: Align(
                 child: Container(
                   width: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ),
@@ -103,7 +107,7 @@ class ChainedLevelsMap extends StatelessWidget {
           child: Container(
             width: 15,
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -113,7 +117,7 @@ class ChainedLevelsMap extends StatelessWidget {
         Align(
           child: Container(
             width: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -128,7 +132,7 @@ class ChainedLevelsMap extends StatelessWidget {
         Align(
           child: Container(
             width: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -146,7 +150,7 @@ class ChainedLevelsMap extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ],
@@ -158,7 +162,7 @@ class ChainedLevelsMap extends StatelessWidget {
               child: Align(
                 child: Container(
                   width: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ),
@@ -175,7 +179,7 @@ class ChainedLevelsMap extends StatelessWidget {
           child: Container(
             width: 15,
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -185,7 +189,7 @@ class ChainedLevelsMap extends StatelessWidget {
         Align(
           child: Container(
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -198,7 +202,7 @@ class ChainedLevelsMap extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
               const Expanded(
@@ -215,7 +219,7 @@ class ChainedLevelsMap extends StatelessWidget {
               child: Align(
                 child: Container(
                   width: 15,
-                  color: Colors.black,
+                  color: linesColor,
                 ),
               ),
             ),
@@ -232,7 +236,7 @@ class ChainedLevelsMap extends StatelessWidget {
           child: Container(
             width: 15,
             height: 15,
-            color: Colors.black,
+            color: linesColor,
           ),
         ),
       ],
@@ -360,7 +364,13 @@ class ChainedLevelsMap extends StatelessWidget {
     ];
   }
 
-  Widget generateChainWidget(List<List<int>> grid) {
+  List<List<int>> generateLevelPoints() {
+    return [
+      [0, 2]
+    ];
+  }
+
+  Column generateChainWidget(List<List<int>> grid) {
     // return const Placeholder();
     return Column(
       children: grid.map((row) {
@@ -369,8 +379,46 @@ class ChainedLevelsMap extends StatelessWidget {
     );
   }
 
-  Widget populatedChainWidget(Widget gridWidget) {
-    return const Placeholder();
+  List<Widget> generateContentWidgetsList() {
+    List<Widget> contentWidgets = [];
+    int k = 1;
+    for (CourseSection section in content) {
+      contentWidgets.add(SectionLevelMapWidget(section, index: k));
+      if (section.lessons == null) {
+        print('Empty section');
+        continue;
+      }
+      int n = 1;
+      for (Lesson lesson in section.lessons!) {
+        contentWidgets.add(LessonLevelMapWidget(lesson, index: n));
+        n++;
+      }
+      k++;
+    }
+    return contentWidgets;
+  }
+
+  // Геніальна хрінь, бажано не чіпати до скону віків,
+  // це мистецтво, пацани, ви не розумієте; дівчата, мій телефон:
+  //                                098 325 41 37
+  void populateChainWidget(chainWidget) {
+    List<List<int>> levelPoints = generateLevelPoints();
+    List<Widget> contentWidgets = generateContentWidgetsList();
+    for (int i = 0; i < levelPoints.length; i++) {
+      int k = 0;
+      for (int j in levelPoints[i]) {
+        if (i * 3 + k < contentWidgets.length) {
+          chainWidget.children[i].child.children[j].child.children.add(
+            SizedBox(
+              child: Center(
+                child: contentWidgets[i * 3 + k],
+              ),
+            ),
+          );
+        }
+        k++;
+      }
+    }
   }
 
   @override
@@ -410,46 +458,13 @@ class ChainedLevelsMap extends StatelessWidget {
       no more. If I am - ask me!
 
        */
-    // this grid is used later to visually chain level and section widgets
-    // List<List<int>> grid = [
-    //   [0, 1, 1, 2],
-    //   [0, 4, 4, 5],
-    //   [2, 4, 0, 1, 8],
-    //   [2, 4, 6, 2, 4],
-    //   [2, 4, 4, 5, 4],
-    //   [2, 4, 4, 5, 4],
-    // ];
 
     final grid = generateGrid();
-    final gridWidget = generateChainWidget(grid);
-    return gridWidget;
-    // return Column(
-    //   children: [
-    //     Row(
-    //       children: [
-    //         Tile(child: lines[0]),
-    //         Tile(child: lines[1]),
-    //         Tile(child: lines[2]),
-    //       ],
-    //     ),
-    //     Row(
-    //       children: [
-    //         Tile(child: lines[3]),
-    //         Tile(child: lines[4]),
-    //         Tile(child: lines[5]),
-    //       ],
-    //     ),
-    //     Row(
-    //       children: [
-    //         Tile(child: lines[6]),
-    //         Tile(child: lines[7]),
-    //         Tile(child: lines[8]),
-    //       ],
-    //     ),
-    //   ],
-    // );
-
-    // return populatedGridWidget(gridWidget);
+    final chainWidget = generateChainWidget(grid);
+    populateChainWidget(chainWidget);
+    return VertiacalPadding(
+      child: chainWidget,
+    );
   }
 }
 
