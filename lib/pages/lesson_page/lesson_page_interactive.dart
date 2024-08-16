@@ -91,11 +91,15 @@ class _LessonPageState extends State<LessonPageInteractive> {
                 width: 100,           
                 child: FloatingActionButton(
                   onPressed: () {
-                    setState(() {
-                      pageIndex++;
-                      //buttonText = '${widgetsOnScreen.length - 1}';
-                      
-                    });
+                    if (pageIndex == widgetsOnScreen.length - 1){
+                      Navigator.of(context).pushNamed('/course_content');
+                    }
+                    if (pageIndex == widgetsOnScreen.length - 2){
+                      setState((){pageIndex++; buttonText = 'Finish lesson';});
+                    }
+                    else{
+                      setState((){pageIndex++;});
+                    }
                   },
                   backgroundColor: Colors.green,
                   child: Text(buttonText, style: const TextStyle(color: Colors.white, fontSize: 14),),
