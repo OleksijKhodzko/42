@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fortytwo/models/course_progress.dart';
 import 'package:fortytwo/models/course_section.dart';
+import 'package:fortytwo/pages/game_course_page/course_preview_popup_view.dart';
 
 class SectionLevelMapWidget extends StatelessWidget {
   final CourseSection section;
+  final SectionStats stats;
   final int index;
-  const SectionLevelMapWidget(this.section, {super.key, required this.index});
+  const SectionLevelMapWidget(
+      {required this.section,
+      super.key,
+      required this.index,
+      required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +23,8 @@ class SectionLevelMapWidget extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(section.title),
-              content: Row(
-                children: [
-                  Text(section.description ?? ''),
-                ],
-              ),
-              actions: const [],
-            );
-          },
+          builder: (BuildContext context) =>
+              CoursePreviewPopupWidget(section: section, stats: stats),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -39,10 +37,8 @@ class SectionLevelMapWidget extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      child: Container(
-          child: Text(index.toString(),
-              style:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+      child: Text(index.toString(),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 }

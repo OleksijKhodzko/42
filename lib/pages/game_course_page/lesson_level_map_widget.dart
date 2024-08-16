@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fortytwo/models/course_progress.dart';
 import 'package:fortytwo/models/lesson.dart';
+import 'package:fortytwo/pages/game_course_page/level_preview_popup_widget.dart';
 
 class LessonLevelMapWidget extends StatelessWidget {
   final Lesson lesson;
+  final LessonStats stats;
   final int index;
-  const LessonLevelMapWidget(this.lesson, {super.key, required this.index});
+  const LessonLevelMapWidget(
+      {required this.lesson,
+      super.key,
+      required this.index,
+      required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,13 @@ class LessonLevelMapWidget extends StatelessWidget {
     //   style: TextStyle(color: Colors.red),
     // );
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              LessonPreviewPopupWidget(lesson: lesson, stats: stats),
+        );
+      },
       style: ElevatedButton.styleFrom(
         elevation: 10,
         shadowColor: Colors.deepPurple,

@@ -29,24 +29,8 @@ class GameCoursePage extends StatelessWidget {
           Text(course.data.content.toString()),
           Text(course.progress.toString()),
           SingleChildScrollView(
-            child: ChainedLevelsMap(content: course.data.content!),
-            // child: Column(
-            //   children: course.data.content
-            //           ?.map((section) =>
-            //               CourseSectionGameWidget(section: section))
-            //           .toList() ??
-            //       [const ErrorPage(code: '77777')],
-            // ),
+            child: ChainedLevelsMap(course: course),
           ),
-          // floatingActionButton: FloatingActionButton(
-          //     backgroundColor: Colors.black,
-          //     child: const Icon(
-          //       Icons.bolt,
-          //       color: Colors.white,
-          //     ),
-          //     onPressed: () {
-          //       //Just to visually see the change of path's curve.
-          //     }),
         ],
       ),
     );

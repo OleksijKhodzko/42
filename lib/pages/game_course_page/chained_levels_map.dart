@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fortytwo/models/course.dart';
+import 'package:fortytwo/models/course_progress.dart';
 import 'package:fortytwo/models/course_section.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/game_course_page/lesson_level_map_widget.dart';
@@ -348,8 +350,9 @@ class ChainedLevelsMap extends StatelessWidget {
           ],
         ),
   ];
-  final List<CourseSection> content;
-  const ChainedLevelsMap({super.key, required this.content});
+  // final List<CourseSection> content;
+  final Course course;
+  const ChainedLevelsMap({super.key, required this.course});
 
   // TODO: impletemt generateGrid, generateGridWidget and populatedGridWidget
 
@@ -379,18 +382,37 @@ class ChainedLevelsMap extends StatelessWidget {
     );
   }
 
+  // Generate a list of SectionLevelMapWidget and LessonLevelMapWidget
+  // widgets from course.data.content and course.progress.
+  // It is used in populateChainWidget.
   List<Widget> generateContentWidgetsList() {
+    if (course.data.content == null) {
+      print('no data in the content');
+      return [];
+    }
     List<Widget> contentWidgets = [];
     int k = 1;
-    for (CourseSection section in content) {
-      contentWidgets.add(SectionLevelMapWidget(section, index: k));
+    for (CourseSection section in course.data.content!) {
+      contentWidgets.add(
+        SectionLevelMapWidget(
+            section: section,
+            stats: course.progress.sections?[k - 1] ??
+                SectionStats(totalSectionScore: 0),
+            index: k),
+      );
       if (section.lessons == null) {
         print('Empty section');
         continue;
       }
       int n = 1;
       for (Lesson lesson in section.lessons!) {
-        contentWidgets.add(LessonLevelMapWidget(lesson, index: n));
+        contentWidgets.add(LessonLevelMapWidget(
+            lesson: lesson,
+            stats: course.progress.sections?[k - 1]?.lessons[n - 1] ??
+                LessonStats(
+                  score: 0,
+                ),
+            index: n));
         n++;
       }
       k++;
