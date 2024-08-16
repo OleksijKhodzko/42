@@ -8,9 +8,11 @@ import 'package:fortytwo/pages/grade_courses_page/grade_courses_page.dart';
 import 'package:fortytwo/pages/grades_page/grades_page.dart';
 import 'package:fortytwo/pages/home_page/home_page.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_page.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_page_interactive.dart';
 import 'package:fortytwo/pages/log_in_page/log_in_page.dart';
 import 'package:fortytwo/pages/saved_courses_page/saved_courses_page.dart';
 import 'package:fortytwo/pages/sign_up_page/sign_up_page.dart';
+import 'package:fortytwo/shared_widgets/profile_panel/panel_options/profile.dart';
 import 'package:fortytwo/wrappers/wrapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,11 +51,13 @@ class MyApp extends StatelessWidget {
         '/log_in': (context) => const LogInPage(),
         '/sign_up': (context) => const SignUpPage(),
         '/grade_courses': (context) => const GradeCoursesPage(),
+        '/grades/profile_panel/profile':(context)=> const Profile(),
         '/course_content': (context) => const CourseContentPage(),
         '/game_course_page': (context) => const GameCoursePage(),
         '/saved_courses': (context) => const SavedCoursesPage(),
         '/grades': (context) => const GradesPage(),
         '/lesson_page': (context) => const LessonPage(),
+        '/lesson_page_interactive':(context) => const LessonPageInteractive(),
       },
     );
   }
