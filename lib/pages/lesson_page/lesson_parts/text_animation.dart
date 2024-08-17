@@ -4,12 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 class LessonAnimation extends StatelessWidget {
 
   final String? ref;
-  final double? height, width;
 
   FirebaseStorage storage = FirebaseStorage.instance;
   String? illustrationURL;
 
-  LessonAnimation({super.key, this.ref, this.height, this.width});
+  LessonAnimation({super.key, this.ref});
 
   Future<void> _getDownloadURL() async {
     try {
@@ -22,8 +21,7 @@ class LessonAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: height,
-        width: width,
+        
         child: FutureBuilder(
           future: _getDownloadURL(), 
           builder: (context, snapshot) {
@@ -31,7 +29,7 @@ class LessonAnimation extends StatelessWidget {
               return Center(child: Image.network(illustrationURL!));
             }
             else if(snapshot.connectionState == ConnectionState.waiting){
-              return const CircularProgressIndicator();
+              return const CircularProgressIndicator.adaptive();
             }
             else{
               return const Text('image is not found');

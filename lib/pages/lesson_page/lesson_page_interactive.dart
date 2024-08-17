@@ -3,6 +3,7 @@ import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_parts/text_animation.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_parts/text_paragraph.dart';
+import 'package:fortytwo/shared_widgets/loading_widget.dart';
 
 class LessonPageInteractive extends StatefulWidget {
   const LessonPageInteractive({super.key});
@@ -15,7 +16,8 @@ class _LessonPageState extends State<LessonPageInteractive> {
 
   Lesson? lesson;
   int pageIndex = 0;
-  List<Widget> widgetsOnScreen = [];
+  List<List<Widget>> widgetsOnScreen = [];
+  List<Widget> blockWidgets = [];
   String buttonText = 'Next';
 
   // @override
@@ -25,49 +27,35 @@ class _LessonPageState extends State<LessonPageInteractive> {
   // }
 
   Future<void> _getPartOfLesson (String text) async {
-    for (int i = 0; i < text.length - 3; i++){
-      if (text.substring(i, i+3)=='</p') {
-        int k = i + 3;
-        while(text.substring(k, k+3) != 'p/>') {
-          k++;
-        }
-        widgetsOnScreen.add(LessonParagraph(text: text.substring(i+3, k)));
-      }
-      else if (text.substring(i, i+3)=='</a') {
-
-        int k = i + 3;
-        int hIndex = -1, wIndex = -1;
-
-        while(text.substring(k, k+3) != 'a/>') {
-          k++;
-          if (text.substring(k, k + 2) == 'h:') {
-            hIndex = k;
-          } else if (text.substring(k, k + 2) == 'w:') {
-            wIndex = k;
+    for (int i = 0; i < text.length - 4; i++){
+      if (text.substring(i, i+4)=='</bl') {
+        List<Widget> bufferList = [];
+        int k = i + 4;
+        while(text.substring(k, k+4) != 'bl/>') {
+          if(text.substring(k, k+3)=='</p'){
+            int k1 = k + 3;
+            while(text.substring(k1, k1+3) != 'p/>'){
+              k1++;
+            }
+            bufferList.add(LessonParagraph(text: text.substring(k+3, k1)));
           }
+          if(text.substring(k, k+3)=='</a'){
+            int k1 = k + 3;
+            while(text.substring(k1, k1+3) != 'a/>'){
+              k1++;
+            }
+            bufferList.add(LessonAnimation(ref: text.substring(k+3, k1)));
+          }
+          k++;
         }
-        widgetsOnScreen.add(LessonAnimation(ref: text.substring(i+3, hIndex), 
-          height: double.parse(text.substring(hIndex + 2, wIndex)), 
-          width: double.parse(text.substring(wIndex + 2, k)),));
+        widgetsOnScreen.add(bufferList);
       }
-      // else if (text.substring(i, i+3)=='</b') {
-      //   int k = i + 3;
-      //   while(text.substring(k, k+3) != 'b/>') {
-      //     k++;
-      //   }
-      //   widgetsOnScreen.add(LessonParagraph(text: text.substring(i+3, k)));
-      // }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     lesson ??= ModalRoute.of(context)?.settings.arguments as Lesson?;
-    setState((){
-      if (pageIndex == 0) {
-        _getPartOfLesson (lesson!.script);
-      }
-    });
     return lesson == null
         ? const ErrorPage(code: '09828')
         : Scaffold(
@@ -80,7 +68,37 @@ class _LessonPageState extends State<LessonPageInteractive> {
               padding: const EdgeInsets.all(13),
                 child: Align(
                   alignment: Alignment.topCenter,
-                    child: widgetsOnScreen[pageIndex],
+                    child: SingleChildScrollView(
+                      child: pageIndex == 0 ? FutureBuilder(
+                        future: _getPartOfLesson (lesson!.script), 
+                        builder: (context, snapshot) {
+                          for (List<Widget> i in widgetsOnScreen){
+                            blockWidgets.add(Column(children: i,));
+                          }
+                          if (snapshot.connectionState == ConnectionState.done){
+                            return Padding(
+                              padding: const EdgeInsets.all(13),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: blockWidgets[pageIndex],
+                              )
+                            );
+                          }
+                          else if(snapshot.connectionState == ConnectionState.waiting){
+                            return const Loading();
+                          }
+                          else{
+                            return const ErrorPage(code: '09828');
+                          }
+                        },
+                      ) : Padding(
+                              padding: const EdgeInsets.all(13),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: blockWidgets[pageIndex],
+                              )
+                            ),
+                    ),
                 ),
             ),
           
@@ -92,7 +110,7 @@ class _LessonPageState extends State<LessonPageInteractive> {
                 child: FloatingActionButton(
                   onPressed: () {
                     if (pageIndex == widgetsOnScreen.length - 1){
-                      Navigator.of(context).pushNamed('/course_content');
+                      //Navigator.of(context).pushNamed('/course_content');
                     }
                     if (pageIndex == widgetsOnScreen.length - 2){
                       setState((){pageIndex++; buttonText = 'Finish lesson';});
@@ -106,72 +124,6 @@ class _LessonPageState extends State<LessonPageInteractive> {
                 ),
               ),
             ),
-            // floatingActionButton: Stack(
-            //   children: <Widget>[
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 20),
-            //       child: SizedBox(
-            //         height: 50,
-            //         width: 100,
-            //         child: _showButton ?
-            //           FloatingActionButton(
-            //             floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-            //             onPressed: () {
-            //               setState(() {
-            //                 pageIndex++;
-            //                 if (pageIndex == widgetsOnScreen.length - 1) {
-            //                   _showButton = false;
-            //                 }
-            //               });
-            //             },
-            //             backgroundColor: Colors.green,
-            //             child: const Text('Next', style: TextStyle(color: Colors.white, fontSize: 14),),
-            //           ) : null,
-            //       ),
-            //     ),
-                
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 20),
-            //       child: SizedBox(
-            //         height: 50,
-            //         width: 100,
-            //         child: _showButton ?
-            //           FloatingActionButton(
-            //             onPressed: () {
-            //               setState(() {
-            //                 pageIndex++;
-            //                 if (pageIndex == widgetsOnScreen.length - 1) {
-            //                   _showButton = false;
-            //                 }
-            //               });
-            //             },
-            //             backgroundColor: Colors.green,
-            //             child: const Text('Next', style: TextStyle(color: Colors.white, fontSize: 14),),
-            //           ) : null,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            //   body: FutureBuilder(
-            //   future: _getPartOfLesson(lesson!.script),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.done){
-            //       return Padding(
-            //         padding: const EdgeInsets.all(13),
-            //         child: Align(
-            //           alignment: Alignment.topCenter,
-            //           child: widgetsOnScreen[pageIndex]
-            //         )
-            //       );
-            //     }
-            //     else if(snapshot.connectionState == ConnectionState.waiting){
-            //       return const CircularProgressIndicator();
-            //     }
-            //     else{
-            //       return const ErrorPage(code: '09828');
-            //     }
-            //   },
-            // ),
         );
   }
 }
