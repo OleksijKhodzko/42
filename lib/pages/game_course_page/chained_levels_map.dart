@@ -5,6 +5,7 @@ import 'package:fortytwo/models/course.dart';
 import 'package:fortytwo/models/course_progress.dart';
 import 'package:fortytwo/models/course_section.dart';
 import 'package:fortytwo/models/lesson.dart';
+import 'package:fortytwo/pages/game_course_page/course_finish_widget.dart';
 import 'package:fortytwo/pages/game_course_page/lesson_level_map_widget.dart';
 import 'package:fortytwo/pages/game_course_page/section_level_map_widget.dart';
 import 'package:fortytwo/shared_widgets/vertical_pagging.dart';
@@ -558,24 +559,31 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
           print('Wrong currentType');
           return;
       }
+      print(verticalStroke.toString());
       if (verticalStroke) row[currentPosition] = 3;
       grid.add(row);
       print('///////////////////////'
           'Added $currentType level'
           '///////////////////////');
+      print(grid.last.toString());
     }
 
     bool verticalStroke = false;
-    for (Widget _ in widgetList) {
+    int widgetNum = widgetList.length;
+    for (int i = 0; i < widgetNum; i++) {
       addNode();
       if (changePosition()) {
         verticalStroke = Random().nextInt(3) == 0;
         continue;
       }
+      // this is to add finish widget in the end
+      if (i == widgetNum - 2) verticalStroke = true;
+      if (i == widgetNum - 1) break;
       addLayer(verticalStroke: verticalStroke);
       verticalStroke = false;
     }
 
+    for (List i in grid) print(i.toString());
     return grid;
   }
 
@@ -619,6 +627,8 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       }
       k++;
     }
+    contentWidgets.add(SizedBox());
+    contentWidgets.add(CourseFinishLevelMapWidget());
     print('Length of contentWidgets: ${contentWidgets.length.toString()}');
     return contentWidgets;
   }
@@ -631,6 +641,7 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       for (int j in levelPoints[i]) {
         print(i);
         if (k < contentWidgets.length) {
+          // It is adding to the Stack widget
           chainWidget[i].child.children[j].child.children.add(
                 SizedBox(
                   child: Center(
@@ -689,21 +700,6 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       child: ListView(
         children: chainWidget,
       ),
-    );
-  }
-}
-
-class Tile extends StatelessWidget {
-  final Widget child;
-  const Tile({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      width: 100,
-      color: Colors.cyan,
-      child: child,
     );
   }
 }
