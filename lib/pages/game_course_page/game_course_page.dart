@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fortytwo/models/course.dart';
-import 'package:fortytwo/models/course_progress.dart';
-import 'package:fortytwo/models/course_section.dart';
-import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
 import 'package:fortytwo/pages/game_course_page/chained_levels_map.dart';
 
@@ -32,120 +28,121 @@ class GameCoursePage extends StatelessWidget {
         children: [
           Expanded(
             child: ChainedLevelsMap(
-              course: Course(
-                data: CourseData(
-                  title: 'Course',
-                  content: [
-                    CourseSection(
-                      title: 'Section 1',
-                      lessons: [
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                      ],
-                    ),
-                    CourseSection(
-                      title: 'Section 1',
-                      lessons: [
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                      ],
-                    ),
-                    CourseSection(
-                      title: 'Section 1',
-                      lessons: [
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                      ],
-                    ),
-                    CourseSection(
-                      title: 'Section 1',
-                      lessons: [
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 1',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                      ],
-                    ),
-                    CourseSection(
-                      title: 'Section 1',
-                      lessons: [
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                        Lesson(
-                          title: 'Lesson 2',
-                          description: 'Description',
-                          script: 'Script',
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                uid: '',
-                progress: CourseProgress(),
-              ),
+              course: course,
+              // course: Course(
+              //   data: CourseData(
+              //     title: 'Course',
+              //     content: [
+              //       CourseSection(
+              //         title: 'Section 1',
+              //         lessons: [
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //         ],
+              //       ),
+              //       CourseSection(
+              //         title: 'Section 1',
+              //         lessons: [
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //         ],
+              //       ),
+              //       CourseSection(
+              //         title: 'Section 1',
+              //         lessons: [
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //         ],
+              //       ),
+              //       CourseSection(
+              //         title: 'Section 1',
+              //         lessons: [
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 1',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //         ],
+              //       ),
+              //       CourseSection(
+              //         title: 'Section 1',
+              //         lessons: [
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //           Lesson(
+              //             title: 'Lesson 2',
+              //             description: 'Description',
+              //             script: 'Script',
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              //   uid: '',
+              //   progress: CourseProgress(),
+              // ),
             ),
           ),
           const SizedBox(

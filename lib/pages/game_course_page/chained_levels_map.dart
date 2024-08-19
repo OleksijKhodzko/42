@@ -682,9 +682,10 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       verticalStroke = false;
     }
 
+    addLayer(verticalStroke: true);
     switch (currentType) {
       case 0:
-        break;
+        addLayer();
       case 1:
         addLayer();
         if (currentPosition == 2) {
@@ -723,8 +724,9 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       case 8:
         grid.last[currentPosition] = 12;
       default:
-        print('icorrect type of line');
+        grid.last[currentPosition] = 9;
     }
+    // grid.last[currentPosition] = 9;
     return grid;
   }
 
@@ -847,7 +849,12 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
     populateChainWidget(chainWidget);
     return VertiacalPadding(
       child: ListView(
-        children: chainWidget,
+        children: [
+          const SizedBox(
+            height: 80,
+          ),
+          ...chainWidget
+        ],
       ),
     );
   }
