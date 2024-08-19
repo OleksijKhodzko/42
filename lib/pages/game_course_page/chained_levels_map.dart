@@ -14,6 +14,7 @@ class ChainedLevelsMap extends StatefulWidget {
   static const linesColor = Colors.black87;
   static var lines = [
     Stack(
+      // 0
       children: [
         Align(
           child: Row(
@@ -61,6 +62,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 1
       children: [
         Align(
           child: Container(
@@ -71,6 +73,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 2
       children: [
         Align(
           child: Row(
@@ -118,6 +121,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 3
       children: [
         Align(
           child: Container(
@@ -128,11 +132,13 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 4
       children: [
         Container(),
       ],
     ),
     Stack(
+      // 5
       children: [
         Align(
           child: Container(
@@ -143,6 +149,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 6
       children: [
         Align(
           child: Row(
@@ -190,6 +197,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 7
       children: [
         Align(
           child: Container(
@@ -200,6 +208,7 @@ class ChainedLevelsMap extends StatefulWidget {
       ],
     ),
     Stack(
+      // 8
       children: [
         Align(
           child: Row(
@@ -243,6 +252,94 @@ class ChainedLevelsMap extends StatefulWidget {
             height: 15,
             color: linesColor,
           ),
+        ),
+      ],
+    ),
+    Stack(
+      children: [
+        Column(
+          children: [
+            // 9
+            Expanded(
+              flex: 50,
+              child: Align(
+                child: Container(
+                  width: 15,
+                  color: linesColor,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 50,
+              child: Container(),
+            ),
+          ],
+        ),
+      ],
+    ),
+    Stack(
+      // 10
+      children: [
+        Row(
+          children: [
+            Expanded(
+              flex: 50,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 50,
+              child: Align(
+                child: Container(
+                  height: 15,
+                  color: linesColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+    Stack(
+      // 11
+      children: [
+        Column(
+          children: [
+            Expanded(
+              flex: 50,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 50,
+              child: Align(
+                child: Container(
+                  width: 15,
+                  color: linesColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+    Stack(
+      // 12
+      children: [
+        Row(
+          children: [
+            Expanded(
+              flex: 50,
+              child: Align(
+                child: Container(
+                  height: 15,
+                  color: linesColor,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 50,
+              child: Container(),
+            ),
+          ],
         ),
       ],
     ),
@@ -363,6 +460,7 @@ class ChainedLevelsMap extends StatefulWidget {
 
 class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
   List<List<int>> levelPoints = [];
+  int finishPosition = 0;
 
   // Generate the grid used to render the map and modify levelPoints
   List<List<int>> generateGrid() {
@@ -412,7 +510,8 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
     //  (the second is in [populateChainWidget])
     List<Widget> widgetList = generateContentWidgetsList();
     List<List<int>> grid = [
-      [0, 4, 3, 4],
+      [0, 4, 11, 4], // this doesn't change
+      [0, 4, 4, 4], // this changes when generating map
     ];
     int currentType = 0;
     int currentPosition = 2;
@@ -583,7 +682,49 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       verticalStroke = false;
     }
 
+    switch (currentType) {
+      case 0:
+        break;
+      case 1:
+        addLayer();
+        if (currentPosition == 2) {
+          go([1]);
+        } else if (currentPosition == 4) {
+          go([3]);
+        }
+      case 2:
+        addLayer();
+        if (currentPosition == 1) {
+          go([2]);
+        } else if (currentPosition == 3) {
+          go([4]);
+        }
+      default:
+        print('incorrect currentType');
+    }
+
     for (List i in grid) print(i.toString());
+    finishPosition = currentPosition;
+    switch (grid.last[currentPosition]) {
+      case 0:
+        grid.last[currentPosition] = 10;
+      case 1 || 7:
+        if (currentPosition == 1) {
+          grid.last[currentPosition] = 10;
+        } else {
+          grid.last[currentPosition] = 12;
+        }
+      case 2:
+        grid.last[currentPosition] = 12;
+      case 3 || 5:
+        grid.last[currentPosition] = 9;
+      case 6:
+        grid.last[currentPosition] = 10;
+      case 8:
+        grid.last[currentPosition] = 12;
+      default:
+        print('icorrect type of line');
+    }
     return grid;
   }
 
@@ -627,8 +768,9 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
       }
       k++;
     }
-    contentWidgets.add(SizedBox());
-    contentWidgets.add(CourseFinishLevelMapWidget());
+    // this 2 lines add finish widget in the end
+    // contentWidgets.add(SizedBox());
+    // contentWidgets.add(CourseFinishLevelMapWidget());
     print('Length of contentWidgets: ${contentWidgets.length.toString()}');
     return contentWidgets;
   }
@@ -653,6 +795,13 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
         k++;
       }
     }
+    chainWidget.last.child.children[finishPosition - 1].child.children.add(
+      SizedBox(
+        child: Center(
+          child: CourseFinishLevelMapWidget(),
+        ),
+      ),
+    );
   }
 
   @override
