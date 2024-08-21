@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/text_animation.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/text_paragraph.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/img_in_lesson_widget.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/text_in_lesson_widget.dart';
 
 class LessonPage extends StatefulWidget {
   const LessonPage({super.key});

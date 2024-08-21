@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/text_animation.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/text_paragraph.dart';
 import 'package:fortytwo/shared_widgets/loading_widget.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/img_in_lesson_widget.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/text_in_lesson_widget.dart';
+//import 'package:fortytwo/pages/lesson_page/lesson_parts/render_core.dart';
+
+
 
 class LessonPageInteractive extends StatefulWidget {
   const LessonPageInteractive({super.key});
@@ -15,18 +18,44 @@ class LessonPageInteractive extends StatefulWidget {
 class _LessonPageState extends State<LessonPageInteractive> {
 
   Lesson? lesson;
-  int pageIndex = 0;
-  List<List<Widget>> widgetsOnScreen = [];
-  List<Widget> blockWidgets = [];
-  String buttonText = 'Next';
+  List<Widget> widgetsOnScreen = [];
+  final _scrollController = ScrollController();
+  bool _isButtonVis = false;
+  bool _isScreenGenerated = false;
+  
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener((){
+      if(_scrollController.position.atEdge){
+        if (_scrollController.position.pixels > 0){
+          if (!_isButtonVis){
+            setState(() {
+              _isButtonVis = true;
+            });
+          }
+        }
+      }
+      // else{
+      //   if (_isButtonVis){
+      //     setState(() {
+      //       _isButtonVis = false;
+      //     });
+      //   }
+      // }
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   buttonText = 'Next';
-  // }
+  @override
+  void dispose() {
+    _scrollController.removeListener((){});
+    _scrollController.dispose(); 
+    super.dispose();
+  }
 
-  Future<void> _getPartOfLesson (String text) async {
+  List<Widget> _getLessonPage(String text) {
+    List<Widget> listOfLessonElements = [];
+
     for (int i = 0; i < text.length - 4; i++){
       if (text.substring(i, i+4)=='</bl') {
         List<Widget> bufferList = [];
@@ -46,13 +75,23 @@ class _LessonPageState extends State<LessonPageInteractive> {
             }
             bufferList.add(LessonAnimation(ref: text.substring(k+3, k1)));
           }
+          if(text.substring(k, k+4)=='</ie'){
+            int k1 = k + 4;
+            while(text.substring(k1, k1+4) != 'ie/>'){
+              k1++;
+            }
+            bufferList.add(LessonAnimation(ref: text.substring(k+4, k1)));
+          }
           k++;
         }
-        widgetsOnScreen.add(bufferList);
+        bufferList.add(FloatingActionButton(backgroundColor: Colors.green, child: Text("Hi bro"), onPressed: (){}));
+        listOfLessonElements.add(Column(children: bufferList));
       }
     }
+    _isScreenGenerated = true;
+    return listOfLessonElements;
   }
-
+  
   @override
   Widget build(BuildContext context) {
     lesson ??= ModalRoute.of(context)?.settings.arguments as Lesson?;
@@ -60,70 +99,20 @@ class _LessonPageState extends State<LessonPageInteractive> {
         ? const ErrorPage(code: '09828')
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: const Color(0xFFDFDA3A),
+              backgroundColor: const Color.fromARGB(255, 189, 189, 189),
               elevation: 0.0,
-              title: Text(lesson!.title, style: const TextStyle(fontSize: 20),),
+              title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(13),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                    child: SingleChildScrollView(
-                      child: pageIndex == 0 ? FutureBuilder(
-                        future: _getPartOfLesson (lesson!.script), 
-                        builder: (context, snapshot) {
-                          for (List<Widget> i in widgetsOnScreen){
-                            blockWidgets.add(Column(children: i,));
-                          }
-                          if (snapshot.connectionState == ConnectionState.done){
-                            return Padding(
-                              padding: const EdgeInsets.all(13),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: blockWidgets[pageIndex],
-                              )
-                            );
-                          }
-                          else if(snapshot.connectionState == ConnectionState.waiting){
-                            return const Loading();
-                          }
-                          else{
-                            return const ErrorPage(code: '09828');
-                          }
-                        },
-                      ) : Padding(
-                              padding: const EdgeInsets.all(13),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: blockWidgets[pageIndex],
-                              )
-                            ),
-                    ),
-                ),
-            ),
-          
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: SizedBox(
-                height: 50,
-                width: 100,           
-                child: FloatingActionButton(
-                  onPressed: () {
-                    if (pageIndex == widgetsOnScreen.length - 1){
-                      //Navigator.of(context).pushNamed('/course_content');
-                    }
-                    if (pageIndex == widgetsOnScreen.length - 2){
-                      setState((){pageIndex++; buttonText = 'Finish lesson';});
-                    }
-                    else{
-                      setState((){pageIndex++;});
-                    }
-                  },
-                  backgroundColor: Colors.green,
-                  child: Text(buttonText, style: const TextStyle(color: Colors.white, fontSize: 14),),
-                ),
-              ),
-            ),
-        );
+                padding: const EdgeInsets.all(10),
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: widgetsOnScreen.length, 
+                    itemBuilder: (context, index) {
+                      return _getLessonPage(lesson!.script)[index];      
+                    } 
+                  ) 
+            ), 
+          );       
   }
 }

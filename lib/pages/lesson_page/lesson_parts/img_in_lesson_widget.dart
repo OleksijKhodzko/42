@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class LessonAnimation extends StatelessWidget {
 
@@ -21,7 +22,6 @@ class LessonAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        
         child: FutureBuilder(
           future: _getDownloadURL(), 
           builder: (context, snapshot) {
