@@ -806,8 +806,13 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
     );
   }
 
+  late List<Widget> chainWidget;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
     /*
        This diagram explains the logic 
        behind the digits in the table
@@ -845,8 +850,12 @@ class _ChainedLevelsMapState extends State<ChainedLevelsMap> {
        */
 
     final grid = generateGrid();
-    final chainWidget = generateChainWidget(grid);
+    chainWidget = generateChainWidget(grid);
     populateChainWidget(chainWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return VertiacalPadding(
       child: ListView(
         children: [

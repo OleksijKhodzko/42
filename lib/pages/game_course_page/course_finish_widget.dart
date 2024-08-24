@@ -8,11 +8,11 @@ class CourseFinishLevelMapWidget extends StatelessWidget {
     // The finish widget of the course level map
     return ElevatedButton(
       onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => Container(
-                  color: Colors.green,
-                ));
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) => Container(
+        //           color: Colors.green,
+        //         ));
       },
       style: ElevatedButton.styleFrom(
         elevation: 10,
@@ -24,8 +24,11 @@ class CourseFinishLevelMapWidget extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      child: const Text('Finish',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      child: const FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Text('Finish',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 }

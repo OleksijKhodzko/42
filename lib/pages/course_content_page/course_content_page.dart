@@ -51,12 +51,14 @@ class _CourseContentPageState extends State<CourseContentPage> {
                 progress: CourseProgress(),
               );
               if (user != null) {
-                final courseString = course.toString();
+                final courseDataString = course.toString();
                 bool courseSaved = false;
                 for (Course userCourse in user.courses ?? []) {
-                  if (courseString == userCourse.toString()) courseSaved = true;
+                  if (courseDataString == userCourse.data.toString()) {
+                    courseSaved = true;
+                  }
                 }
-                if (courseSaved) {
+                if (!courseSaved) {
                   final database =
                       Provider.of<UserDatabase>(context, listen: false);
                   database.updateUserData(courses: [
