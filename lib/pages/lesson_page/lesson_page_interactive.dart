@@ -62,11 +62,22 @@ class _LessonPageState extends State<LessonPageInteractive> {
         int k = i + 4;
         while(text.substring(k, k+4) != 'bl/>') {
           if(text.substring(k, k+3)=='</p'){
+            List<TextSpan> textBuffer = [];
             int k1 = k + 3;
+            int p1 = 0;
             while(text.substring(k1, k1+3) != 'p/>'){
+              if(text.substring(k1, k1+5)=='/bld('){
+                textBuffer.add(TextSpan(text: text.substring(k+3, k1)));
+                p1 = k1 + 5;
+                while(text.substring(p1, p1+1)!=')'){
+                  p1++;
+                }
+                textBuffer.add(TextSpan(text: text.substring(k1+5, p1)));
+              }
               k1++;
             }
-            bufferList.add(LessonParagraph(text: text.substring(k+3, k1)));
+            textBuffer.add(TextSpan(text: text.substring(p1 + 1, k1)));
+            bufferList.add(LessonParagraph(customText: textBuffer));
           }
           if(text.substring(k, k+3)=='</a'){
             int k1 = k + 3;
