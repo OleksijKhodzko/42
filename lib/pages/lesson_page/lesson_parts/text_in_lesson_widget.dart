@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
-class LessonParagraph extends StatelessWidget {
+class TextParagraph extends StatelessWidget {
 
-  const LessonParagraph({super.key, this.customText, this.text});
+  const TextParagraph({super.key, this.customText});
 
   final List<TextSpan>? customText;
-  final String? text;
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-            text: TextSpan(
-              children: customText,
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: RichText(
+              text: TextSpan(
+                children: customText,
+              ),
             ),
-          );
+    );
   }
 
 }

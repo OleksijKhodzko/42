@@ -8,7 +8,6 @@ import 'package:fortytwo/pages/grade_courses_page/grade_courses_page.dart';
 import 'package:fortytwo/pages/grades_page/grades_page.dart';
 import 'package:fortytwo/pages/home_page/home_page.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_page.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_page_interactive.dart';
 import 'package:fortytwo/pages/log_in_page/log_in_page.dart';
 import 'package:fortytwo/pages/saved_courses_page/saved_courses_page.dart';
 import 'package:fortytwo/pages/sign_up_page/sign_up_page.dart';
@@ -57,7 +56,6 @@ class MyApp extends StatelessWidget {
         '/saved_courses': (context) => const SavedCoursesPage(),
         '/grades': (context) => const GradesPage(),
         '/lesson_page': (context) => const LessonPage(),
-        '/lesson_page_interactive':(context) => const LessonPageInteractive(),
       },
     );
   }

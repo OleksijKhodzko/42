@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/img_in_lesson_widget.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/text_in_lesson_widget.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/lesson_content.dart';
 
 class LessonPage extends StatefulWidget {
   const LessonPage({super.key});
@@ -14,77 +13,21 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
 
   Lesson? lesson;
-
-  List<Widget> widgetsOnScreen = [];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    lesson ??= ModalRoute.of(context)?.settings.arguments as Lesson?;
-  }
-  
-  Future<void> _getPartOfLesson (String text) async {
-    for (int i = 0; i < text.length - 3; i++){
-      if (text.substring(i, i+3)=='</p') {
-        int k = i + 3;
-        while(text.substring(k, k+3) != 'p/>') {
-          k++;
-        }
-        widgetsOnScreen.add(LessonParagraph(text: text.substring(i+3, k)));
-      }
-      else if (text.substring(i, i+3)=='</a') {
-
-        int k = i + 3;
-
-        while(text.substring(k, k+3) != 'a/>') {
-          k++;
-        }
-        widgetsOnScreen.add(LessonAnimation(ref: text.substring(i+3, k))); 
-      }
-      // else if (text.substring(i, i+3)=='</b') {
-      //   int k = i + 3;
-      //   while(text.substring(k, k+3) != 'b/>') {
-      //     k++;
-      //   }
-      //   widgetsOnScreen.add(LessonParagraph(text: text.substring(i+3, k)));
-      // }
-    }
-  }
+  //ScrollController _controller = ScrollController();
+  //bool _canScroll = false;
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      lesson ??= ModalRoute.of(context)?.settings.arguments as Lesson?;
-    });
+    lesson ??= ModalRoute.of(context)?.settings.arguments as Lesson?;
     return lesson == null
         ? const ErrorPage(code: '09828')
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: const Color(0xFFDFDA3A),
+              backgroundColor: const Color.fromARGB(255, 189, 189, 189),
               elevation: 0.0,
-              title: Text(lesson!.title, style: const TextStyle(fontSize: 20),),
+              title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
-            body: FutureBuilder(
-              future: _getPartOfLesson(lesson!.script),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done){
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        children: widgetsOnScreen,
-                      ),
-                    ),
-                  );
-                }
-                else if(snapshot.connectionState == ConnectionState.waiting){
-                  return const CircularProgressIndicator();
-                }
-                else{
-                  return const ErrorPage(code: '09828');
-                }
-              },
-            ),
-          );
+            body: LessonContent(contentJSON: lesson!.script),
+        );         
   }
 }
