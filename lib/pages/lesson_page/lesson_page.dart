@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fortytwo/pages/lesson_page/lesson_parts/json_logic.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_parts/lesson_content.dart';
 
 class LessonPage extends StatefulWidget {
@@ -13,8 +15,19 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
 
   Lesson? lesson;
-  //ScrollController _controller = ScrollController();
-  //bool _canScroll = false;
+  String? _lessonJson;
+
+  Future<void> uploadJson() async {
+    DocumentReference docRef = FirebaseFirestore.instance.collection('lessons').doc('RizWsBtbncwoiFYHo8ov');
+    docRef.update({'script': _lessonJson});   
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _lessonJson = widgetToJson(const LessonContent());
+    uploadJson();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +40,7 @@ class _LessonPageState extends State<LessonPage> {
               elevation: 0.0,
               title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
-            body: LessonContent(contentJSON: lesson!.script),
+            body: const Text("Import JSON"), //fromJson(...),
         );         
   }
 }
