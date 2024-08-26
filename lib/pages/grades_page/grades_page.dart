@@ -88,7 +88,7 @@ class _GradesPageState extends State<GradesPage> {
                   child: const GradeTile(text: '7 клас'),
                   onTap: () {
                     Navigator.pushNamed(context, '/grade_courses',
-                        arguments: 7);
+                        arguments: 'Iknq8evn94SxPfv8Frdv');
                   },
                 ),
               ),
