@@ -16,10 +16,15 @@ class LessonPreviewPopupWidget extends StatelessWidget {
         children: [
           Expanded(
             child: Align(
-              child: Center(
-                child: Text(
-                  lesson.description ?? '',
-                  style: const TextStyle(fontSize: 20),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Center(
+                  child: Text(
+                    lesson.description ?? '',
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
             ),

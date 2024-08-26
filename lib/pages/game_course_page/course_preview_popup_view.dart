@@ -27,9 +27,16 @@ class CoursePreviewPopupWidget extends StatelessWidget {
           Expanded(
             child: Align(
               child: Center(
-                child: Text(
-                  section.description ?? '',
-                  style: const TextStyle(fontSize: 20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                  ),
+                  child: Text(
+                    section.description ?? '',
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -38,43 +45,26 @@ class CoursePreviewPopupWidget extends StatelessWidget {
             // child: Center(child: Text('${stats.score.toString()}%')),
             child: Stack(
               alignment: Alignment.center,
-              children: (stats.totalSectionScore == null ||
-                      stats.totalSectionScore == 0)
-                  ? [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(24),
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Icon(
-                          Icons.play_arrow_outlined,
-                          size: 50,
-                        ),
-                      ),
-                    ]
-                  : [
-                      Text(
-                        '${stats.totalSectionScore.toString()}%',
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: CircularProgressIndicator(
-                          value: (stats.totalSectionScore ?? 0) / 12,
-                          // backgroundColor: Colors.grey.shade200,
-                          semanticsLabel: 'Circular progress indicator',
-                          strokeWidth: 16,
-                          strokeCap: StrokeCap.round,
-                        ),
-                      ),
-                    ],
+              children: [
+                Text(
+                  '${stats.totalSectionScore.toString()}%',
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: CircularProgressIndicator(
+                    value: (stats.totalSectionScore ?? 0) / 12,
+                    // backgroundColor: Colors.grey.shade200,
+                    semanticsLabel: 'Circular progress indicator',
+                    strokeWidth: 16,
+                    strokeCap: StrokeCap.round,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
