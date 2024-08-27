@@ -16,6 +16,7 @@ class _LessonPageState extends State<LessonPage> {
 
   Lesson? lesson;
   String? _lessonJson;
+  ScrollController _controller = ScrollController();
 
   Future<void> uploadJson() async {
     DocumentReference docRef = FirebaseFirestore.instance.collection('lessons').doc('RizWsBtbncwoiFYHo8ov');
@@ -25,7 +26,7 @@ class _LessonPageState extends State<LessonPage> {
   @override
   void initState() {
     super.initState();
-    _lessonJson = widgetToJson(const LessonContent());
+    _lessonJson = widgetToJson(LessonContent());
     uploadJson();
   }
 
@@ -40,7 +41,12 @@ class _LessonPageState extends State<LessonPage> {
               elevation: 0.0,
               title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
-            body: const Text("Import JSON"), //fromJson(...),
-        );         
+            body: ListView(
+              controller: _controller,
+              children: [
+                LessonContent(),
+              ], //fromJson(...),
+            ),
+        );        
   }
 }
