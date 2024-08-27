@@ -23,8 +23,8 @@ Future<void> clearPrefs() async {
 }
 
 void main() {
-  const releaseMode = kReleaseMode;
-  // const releaseMode = true;
+  //const releaseMode = kReleaseMode;
+  const releaseMode = true;
   runApp(
     DevicePreview(
       enabled: !releaseMode,

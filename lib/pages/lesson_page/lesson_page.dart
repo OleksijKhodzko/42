@@ -15,20 +15,6 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
 
   Lesson? lesson;
-  String? _lessonJson;
-  ScrollController _controller = ScrollController();
-
-  Future<void> uploadJson() async {
-    DocumentReference docRef = FirebaseFirestore.instance.collection('lessons').doc('RizWsBtbncwoiFYHo8ov');
-    docRef.update({'script': _lessonJson});   
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _lessonJson = widgetToJson(LessonContent());
-    uploadJson();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +27,7 @@ class _LessonPageState extends State<LessonPage> {
               elevation: 0.0,
               title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
-            body: ListView(
-              controller: _controller,
-              children: [
-                LessonContent(),
-              ], //fromJson(...),
-            ),
+            body: LessonContent(),
         );        
   }
 }

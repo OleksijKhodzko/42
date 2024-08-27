@@ -1,6 +1,6 @@
-.fvm
 .dart_tool
 .git
 build
 
-
+# FVM Version Cache
+.fvm/

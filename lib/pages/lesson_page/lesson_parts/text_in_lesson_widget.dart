@@ -12,8 +12,10 @@ class TextParagraph extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: RichText(
               text: TextSpan(
+                style: const TextStyle(fontSize: 20, color: Colors.black),
                 children: customText,
               ),
+              
             ),
     );
   }
