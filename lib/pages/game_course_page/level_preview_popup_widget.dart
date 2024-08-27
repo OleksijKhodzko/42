@@ -36,7 +36,10 @@ class LessonPreviewPopupWidget extends StatelessWidget {
               children: (stats.score == null || stats.score == 0)
                   ? [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed('/lesson_page', arguments: lesson);
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(24),
@@ -77,7 +80,10 @@ class LessonPreviewPopupWidget extends StatelessWidget {
           ? []
           : [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed('/lesson_page', arguments: lesson);
+                },
                 child: const Icon(Icons.restart_alt),
               ),
             ],

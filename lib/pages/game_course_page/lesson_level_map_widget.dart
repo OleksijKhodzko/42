@@ -15,42 +15,6 @@ class LessonLevelMapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Text(
-    //   lesson.title,
-    //   style: TextStyle(color: Colors.red),
-    // );
-
-    // return ElevatedButton(
-    //   onPressed: () {
-    //     showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) =>
-    //           LessonPreviewPopupWidget(lesson: lesson, stats: stats),
-    //     );
-    //   },
-    //   style: ElevatedButton.styleFrom(
-    //     elevation: 10,
-    //     shadowColor: Colors.deepPurple,
-    //     // for some reason, it aligns the text in the center
-    //     visualDensity: VisualDensity.comfortable,
-    //     backgroundColor: Colors.black,
-    //     foregroundColor: Colors.white,
-    //     shape: const BeveledRectangleBorder(
-    //       borderRadius: BorderRadius.all(Radius.circular(10)),
-    //     ),
-    //     alignment: Alignment.center,
-    //     textStyle: const TextStyle(
-    //       fontWeight: FontWeight.bold,
-    //       fontSize: 17,
-    //     ),
-    //   ),
-    //   child: Text(
-    //     index.toString(),
-    //   ),
-    // );
-
-    // It is made with stack to avoid strange shifting when
-    // fitted in small boxes
     return Stack(
       alignment: Alignment.center,
       children: [
