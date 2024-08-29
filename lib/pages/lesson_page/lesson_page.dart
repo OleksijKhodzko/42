@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fortytwo/models/lesson.dart';
 import 'package:fortytwo/pages/error_page/error_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/json_logic.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_parts/lesson_content.dart';
+
+final ScrollController controller = ScrollController();
 
 class LessonPage extends StatefulWidget {
   const LessonPage({super.key});
@@ -27,7 +27,20 @@ class _LessonPageState extends State<LessonPage> {
               elevation: 0.0,
               title: Text(lesson!.title, style: const TextStyle(fontSize: 20,)),
             ),
-            body: LessonContent(),
+            body: ListView(
+              controller: controller,
+              children: const [
+                Block1(),
+                Block2(),
+                Block3(),
+                // Block4(),
+                // Block5(),
+                // Block6(),
+                // Block7(),
+                // Block8(),
+                // Block9(),
+              ],
+            ),
         );        
   }
 }
