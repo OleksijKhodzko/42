@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:fortytwo/pages/lesson_page/lesson_parts/img_in_lesson_widget.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_parts/text_in_lesson_widget.dart';
 import 'package:fortytwo/pages/lesson_page/lesson_page.dart';
+import 'package:indexed_list_view/indexed_list_view.dart';
+import 'package:provider/provider.dart';
 
-List<bool> _buttonStates = [true, false, false, false, false, false, false, false, false];
+List<bool> _buttonStates = [
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
 final List<GlobalKey> widgetsID = List.generate(9, (index) => GlobalKey());
 
-void scrollToWidget(double position) {
-
-  controller.animateTo(
-    position, 
-    duration: const Duration(milliseconds: 500), 
-    curve: Curves.easeIn,
-  );
-  
-}
-
 class Block1 extends StatefulWidget {
-
   const Block1({super.key});
 
   @override
@@ -25,76 +25,100 @@ class Block1 extends StatefulWidget {
 }
 
 class _Block1State extends State<Block1> {
-
   @override
   Widget build(BuildContext context) {
     return Visibility(
-          //key: widgetsID[0],
-          visible: _buttonStates[0],
-          child: Column(
+      //key: widgetsID[0],
+      visible: _buttonStates[0],
+      child: Column(
+        children: [
+          const Row(
             children: [
-              const Row(
-                children: [
-                  Flexible(
-                    child: TextParagraph(customText: [
-                      TextSpan(text: "З розвитком людства в давні часи з’явилося багато проблем, які вимагали створення "
-                                    "нової науки – математики. Спочатку задачі були прості: порахувати кількість голів худоби, кількість "
-                                    "деревини і продуктів, що приготували. Щоб відповісти на питання “Скільки?” людство винайшло натуральні числа.\n\nОтже, ", style: TextStyle()),
-
-                      TextSpan(text: "Натуральні числа – числа, які використовуються при лічбі\n", style: TextStyle(fontWeight: FontWeight.bold)),
-
-                      TextSpan(text: "Найменше натуральне число 1, оскільки 0 не є натуральним числом.", style: TextStyle()),
-                      TextSpan(text: "Найбільшого натурального числа не існує. Неважливо, наскільки велике число ви придумаєте, " 
-                                      "до нього завжди можна додати 1 або будь-яке інше число.", style: TextStyle()),
-                      TextSpan(text: "Дроби, від’ємні числа і число 0 не є натуральними в свою чергу.\n\n", style: TextStyle()),
-                      TextSpan(text: "Тепер поговоримо про натуральний ряд.\n", style: TextStyle()),
-                      TextSpan(text: "Натуральний ряд - це всі натуральні числа записані по порядку від 1, тобто\n"
-                                      "1,2,3,4,5,6,7,8,9… - натуральний ряд\n\n", style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: "Над натуральними числами можна виконувати операції тільки множення і додавання, тоді результатом буде також натуральне число\n" 
-                                      "Операції віднімання і ділення над натуральними числами можуть виводити за рамки натуральних чисел\n\n", style: TextStyle()),
-                      TextSpan(text: "Наприклад:\n", style: TextStyle(fontStyle: FontStyle.italic)),
-                      TextSpan(text: "15+273=288\n15- натуральне число, 273 – натуральне число, 288- натуральне число\n"
-                                      "2*23=46, усі три числа також є натуральними, втім 5:2=2, 5 – натуральне число, 2 – також натуральне число, втім 2 не натуральне\n" 
-                                      "Також з відніманням, якщо ви віднімаєте більше число від меншого то отримуєте число, яке менше за 0, а від’ємні числа не є натуральними", style: TextStyle()),
-                    ],),
-                  ),
-                ],
+              Flexible(
+                child: TextParagraph(
+                  customText: [
+                    TextSpan(
+                        text:
+                            "З розвитком людства в давні часи з’явилося багато проблем, які вимагали створення "
+                            "нової науки – математики. Спочатку задачі були прості: порахувати кількість голів худоби, кількість "
+                            "деревини і продуктів, що приготували. Щоб відповісти на питання “Скільки?” людство винайшло натуральні числа.\n\nОтже, ",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Натуральні числа – числа, які використовуються при лічбі\n",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(
+                        text:
+                            "Найменше натуральне число 1, оскільки 0 не є натуральним числом.",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Найбільшого натурального числа не існує. Неважливо, наскільки велике число ви придумаєте, "
+                            "до нього завжди можна додати 1 або будь-яке інше число.",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Дроби, від’ємні числа і число 0 не є натуральними в свою чергу.\n\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text: "Тепер поговоримо про натуральний ряд.\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Натуральний ряд - це всі натуральні числа записані по порядку від 1, тобто\n"
+                            "1,2,3,4,5,6,7,8,9… - натуральний ряд\n\n",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(
+                        text:
+                            "Над натуральними числами можна виконувати операції тільки множення і додавання, тоді результатом буде також натуральне число\n"
+                            "Операції віднімання і ділення над натуральними числами можуть виводити за рамки натуральних чисел\n\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text: "Наприклад:\n",
+                        style: TextStyle(fontStyle: FontStyle.italic)),
+                    TextSpan(
+                        text:
+                            "15+273=288\n15- натуральне число, 273 – натуральне число, 288- натуральне число\n"
+                            "2*23=46, усі три числа також є натуральними, втім 5:2=2, 5 – натуральне число, 2 – також натуральне число, втім 2 не натуральне\n"
+                            "Також з відніманням, якщо ви віднімаєте більше число від меншого то отримуєте число, яке менше за 0, а від’ємні числа не є натуральними",
+                        style: TextStyle()),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: ElevatedButton(                 
-                      onPressed: (){
-                        double distance = controller.position.maxScrollExtent + 50;
-                        setState(() {                              
-                          _buttonStates[1] = true;
-                        });
-                        scrollToWidget(0);
-                        scrollToWidget(distance);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,  
-                        shadowColor: Colors.grey, 
-                        elevation: 5,
-                      ),
-                      child: const SizedBox(
-                        height: 50,
-                        width: 100,
-                        child: Center(child: Text("Next", style: TextStyle(color: Colors.white, fontSize: 16),),),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: ElevatedButton(
+                  onPressed: () async {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.grey,
+                    elevation: 5,
+                  ),
+                  child: const SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
-              ],),
+                ),
+              ),
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }
-
-
 
 class Block2 extends StatefulWidget {
   const Block2({super.key});
@@ -107,67 +131,83 @@ class _Block2State extends State<Block2> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-            //key: widgetsID[1],
-            visible: _buttonStates[1],
-            child: Column(
-              children: [
-                const Row(
-                  children: [
-                    Flexible(
-                      child: TextParagraph(customText: [
-                        TextSpan(text: "Як ми вже з’ясували, натуральні числа позначають кількість предметів. І так само як ми можемо"
-                        "порівнювати кількості предметів (наприклад, казати, що яблук у кошику більше ніж груш), ми також можемо" 
-                        "порівнювати натуральні числа. Наприклад, число 5 більше ніж число 2.\n", style: TextStyle()),
-
-                        TextSpan(text: "Результат порівняння чисел записуємо за допомогою знаків “>” (більше) або “<” (менше). Наприклад:\n"
-                        "1.) 7 > 5 (читаємо: “сім більше за п’ять”);\n2.) 5 < 7 (читаємо: “п’ять менше за сім”). \nЯкий знак використовувати в якій ситуації "
-                        "можна легко запам’ятати, якщо уявити, що знак порівняння – це дзьоб голодного птаха. Зрозуміло, що цей птах розкриватиме "
-                        "дзьоба в ту сторону, де буде більше число.\n\n", style: TextStyle()),
-
-                        TextSpan(text: "  Правила порівняння натуральних\n\t\tчисел: \n", style: TextStyle()),
-                        TextSpan(text: "1.) Якщо два натуральних числа мають різну кількість цифр, то більшим буде те, у якого більше знаків.\n"
-                        "Наприклад, число 733 більше за 54, оскільки кількість знаків у 733 більша за кількість знаків у 54.\n2.) Якщо два натуральних " 
-                        "числа мають однакову кількість цифр, то більшим числом є те, яке має більшу цифру у найвищому розряді. Якщо цифри у найвищому "
-                        "розряді однакові, то порівнюють цифри наступного розряду і т. д.\nПорівняймо числа 4723 і 4750.\nКількість знаків у числах однакова, "
-                        "тому порівняймо їхні перші цифри. 4 = 4, тому порівняємо наступні цифри. 7 = 7, тому порівняємо наступні. 2 < 5, тому число 4750 > 4723.", style: TextStyle()),
-                    ],),
-                  ),
-                ],
+      //key: widgetsID[1],
+      visible: _buttonStates[1],
+      child: Column(
+        children: [
+          const Row(
+            children: [
+              Flexible(
+                child: TextParagraph(
+                  customText: [
+                    TextSpan(
+                        text:
+                            "Як ми вже з’ясували, натуральні числа позначають кількість предметів. І так само як ми можемо"
+                            "порівнювати кількості предметів (наприклад, казати, що яблук у кошику більше ніж груш), ми також можемо"
+                            "порівнювати натуральні числа. Наприклад, число 5 більше ніж число 2.\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Результат порівняння чисел записуємо за допомогою знаків “>” (більше) або “<” (менше). Наприклад:\n"
+                            "1.) 7 > 5 (читаємо: “сім більше за п’ять”);\n2.) 5 < 7 (читаємо: “п’ять менше за сім”). \nЯкий знак використовувати в якій ситуації "
+                            "можна легко запам’ятати, якщо уявити, що знак порівняння – це дзьоб голодного птаха. Зрозуміло, що цей птах розкриватиме "
+                            "дзьоба в ту сторону, де буде більше число.\n\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text: "  Правила порівняння натуральних\n\t\tчисел: \n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "1.) Якщо два натуральних числа мають різну кількість цифр, то більшим буде те, у якого більше знаків.\n"
+                            "Наприклад, число 733 більше за 54, оскільки кількість знаків у 733 більша за кількість знаків у 54.\n2.) Якщо два натуральних "
+                            "числа мають однакову кількість цифр, то більшим числом є те, яке має більшу цифру у найвищому розряді. Якщо цифри у найвищому "
+                            "розряді однакові, то порівнюють цифри наступного розряду і т. д.\nПорівняймо числа 4723 і 4750.\nКількість знаків у числах однакова, "
+                            "тому порівняймо їхні перші цифри. 4 = 4, тому порівняємо наступні цифри. 7 = 7, тому порівняємо наступні. 2 < 5, тому число 4750 > 4723.",
+                        style: TextStyle()),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: ElevatedButton(
-                      onPressed: (){
-                        double _scrollDistance = controller.position.maxScrollExtent + 50;
-                        setState(() {                              
-                          _buttonStates[2] = true;
-                        });
-                        scrollToWidget(_scrollDistance);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,  
-                        shadowColor: Colors.grey, 
-                        elevation: 5,
-                      ),
-                      child: const SizedBox(
-                        height: 50,
-                        width: 100,
-                        child: Center(child: Text("Next", style: TextStyle(color: Colors.white, fontSize: 16),),),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _buttonStates[2] = true;
+                    });
+                    final controller =
+                        Provider.of<IndexedScrollController>(context);
+                    controller.jumpToIndex(2);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.grey,
+                    elevation: 5,
+                  ),
+                  child: const SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
-              ],),
+                ),
+              ),
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }
-
-
 
 class Block3 extends StatefulWidget {
   const Block3({super.key});
@@ -180,65 +220,79 @@ class _Block3State extends State<Block3> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-          visible: _buttonStates[2],
-          //key: widgetsID[2],
-          child: Column(
+      visible: _buttonStates[2],
+      //key: widgetsID[2],
+      child: Column(
+        children: [
+          const Row(
             children: [
-              const Row(
-                children: [
-                  Flexible(
-                    child: TextParagraph(customText: [
-                      TextSpan(text: "Припустимо, наприклад, що кількість яблук у ящику була 1253. Через певний час кількість яблук у "
-                      "ящику може змінитися. У числі може змінитися цифра розрядів одиниць, а можливо, і десятків. Тому можна сказати, "
-                      "що у ящику приблизно 1250 яблук. Тобто ми замінили цифру одиниць на нуль. У цьому разі кажуть, що число округлили "
-                      "до десятків. Це записують так: 1253 ≈ 1250. Знак ≈ називають знаком наближеної рівності і читають: «наближено дорівнює». "
-                      "Округлюють число до заданого розряду так, щоб результат округлення якнайменше відрізнявся від даного числа. Тому при "
-                      "округленні до сотень маємо 1253 ≈ 1300 (1253 ближче до 1300 ніж до 1200). Проте що ж робити, якщо, скажімо, нам потрібно "
-                      "заокруглити число 350 до сотих? Тут маємо особливий випадок, оскільки число 350 рівновіддалене від 300 і 400. У таких "
-                      "випадках число заокруглюють у бік більшого значення. Отже, 350 ≈ 400.\n", style: TextStyle()),
-
-                      TextSpan(text: "  Правила округлення натуральних\n\t\tчисел: \n", style: TextStyle()),
-                      TextSpan(text: "Щоб округлити число до певного розряду, потрібно:\n1.) усі цифри, записані за цим розрядом замінити на "
-                      "нулі;\n2.) Якщо першою наступною цифрою за цим розрядом є цифра 0, 1, 2, 3 або 4, то цифру цього розряду не змінювати; "
-                      "якщо ж першою наступною за цим розрядом є цифра 5, 6, 7, 8, або 9, то цифру цього розряду збільшити на одиницю.", style: TextStyle()),
-                    ],),
-                  ),
-                ],
+              Flexible(
+                child: TextParagraph(
+                  customText: [
+                    TextSpan(
+                        text:
+                            "Припустимо, наприклад, що кількість яблук у ящику була 1253. Через певний час кількість яблук у "
+                            "ящику може змінитися. У числі може змінитися цифра розрядів одиниць, а можливо, і десятків. Тому можна сказати, "
+                            "що у ящику приблизно 1250 яблук. Тобто ми замінили цифру одиниць на нуль. У цьому разі кажуть, що число округлили "
+                            "до десятків. Це записують так: 1253 ≈ 1250. Знак ≈ називають знаком наближеної рівності і читають: «наближено дорівнює». "
+                            "Округлюють число до заданого розряду так, щоб результат округлення якнайменше відрізнявся від даного числа. Тому при "
+                            "округленні до сотень маємо 1253 ≈ 1300 (1253 ближче до 1300 ніж до 1200). Проте що ж робити, якщо, скажімо, нам потрібно "
+                            "заокруглити число 350 до сотих? Тут маємо особливий випадок, оскільки число 350 рівновіддалене від 300 і 400. У таких "
+                            "випадках число заокруглюють у бік більшого значення. Отже, 350 ≈ 400.\n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text: "  Правила округлення натуральних\n\t\tчисел: \n",
+                        style: TextStyle()),
+                    TextSpan(
+                        text:
+                            "Щоб округлити число до певного розряду, потрібно:\n1.) усі цифри, записані за цим розрядом замінити на "
+                            "нулі;\n2.) Якщо першою наступною цифрою за цим розрядом є цифра 0, 1, 2, 3 або 4, то цифру цього розряду не змінювати; "
+                            "якщо ж першою наступною за цим розрядом є цифра 5, 6, 7, 8, або 9, то цифру цього розряду збільшити на одиницю.",
+                        style: TextStyle()),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: ElevatedButton(
-                      onPressed: (){
-                        double _scrollDistance = controller.position.maxScrollExtent + 50;
-                        setState(() {                              
-                          _buttonStates[3] = true;
-                        });
-                        scrollToWidget(_scrollDistance);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,  
-                        shadowColor: Colors.grey, 
-                        elevation: 5,
-                      ),
-                      child: const SizedBox(
-                        height: 50,
-                        width: 100,
-                        child: Center(child: Text("Next", style: TextStyle(color: Colors.white, fontSize: 16),),),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      _buttonStates[3] = true;
+                    });
+                    final controller =
+                        Provider.of<IndexedScrollController>(context);
+                    controller.jumpToIndex(3);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.grey,
+                    elevation: 5,
+                  ),
+                  child: const SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
-              ],),
+                ),
+              ),
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }
-
-
 
 // class Block4 extends StatefulWidget {
 //   const Block4({super.key});
@@ -285,8 +339,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -302,8 +356,6 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
-
 
 // class Block5 extends StatefulWidget {
 //   const Block5({super.key});
@@ -353,8 +405,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -370,7 +422,6 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
 
 // class Block6 extends StatefulWidget {
 //   const Block6({super.key});
@@ -511,8 +562,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -528,8 +579,6 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
-
 
 // class Block7 extends StatefulWidget {
 //   const Block7({super.key});
@@ -552,7 +601,7 @@ class _Block3State extends State<Block3> {
 //                     child: TextParagraph(customText: [
 //                       TextSpan(text: "Ми вже знаємо, що суму деякої кількості однакових доданків можна записати у коротшому вигляді – добутку. "
 //                       "Так ось, аналогічно добуток деякої кількості однакових множників можна записати у вигляді степеня числа.\n7 * 7 * 7 * 7 * 7 = 7"),
-//                       TextSpan(text: "5", style: TextStyle()), 
+//                       TextSpan(text: "5", style: TextStyle()),
 //                     ],),
 //                   ),
 //                 ],
@@ -581,8 +630,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -598,8 +647,6 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
-
 
 // class Block8 extends StatefulWidget {
 //   const Block8({super.key});
@@ -646,8 +693,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -663,7 +710,6 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
 
 // class Block9 extends StatefulWidget {
 //   const Block9({super.key});
@@ -704,7 +750,7 @@ class _Block3State extends State<Block3> {
 //                           context: context,
 //                           builder: (BuildContext context) {
 //                             return AlertDialog(
-                              
+
 //                               title: const Text("System notification"),
 //                               content: const Center(child: Text('You are the BEAST', style: TextStyle(color: Color.fromARGB(255, 19, 29, 34)))),
 //                               actions: [
@@ -721,8 +767,8 @@ class _Block3State extends State<Block3> {
 //                       },
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: Colors.black,
-//                         foregroundColor: Colors.white,  
-//                         shadowColor: Colors.grey, 
+//                         foregroundColor: Colors.white,
+//                         shadowColor: Colors.grey,
 //                         elevation: 5,
 //                       ),
 //                       child: const SizedBox(
@@ -741,6 +787,3 @@ class _Block3State extends State<Block3> {
 //         );
 //   }
 // }
-
-
- 
