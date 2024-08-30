@@ -52,12 +52,12 @@ class MyApp extends StatelessWidget {
         '/log_in': (context) => const LogInPage(),
         '/sign_up': (context) => const SignUpPage(),
         '/grade_courses': (context) => const GradeCoursesPage(),
-        '/grades/profile_panel/profile':(context)=> const Profile(),
+        '/grades/profile_panel/profile': (context) => const Profile(),
         '/course_content': (context) => const CourseContentPage(),
         '/game_course_page': (context) => const GameCoursePage(),
         '/saved_courses': (context) => const SavedCoursesPage(),
         '/grades': (context) => const GradesPage(),
-        '/lesson_page': (context) => const LessonPage(),
+        '/lesson_page': (context) => LessonPage(),
       },
     );
   }
