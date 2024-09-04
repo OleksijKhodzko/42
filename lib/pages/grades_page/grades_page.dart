@@ -128,7 +128,7 @@ class _GradesPageState extends State<GradesPage> {
                   child: const GradeTile(text: '11 клас'),
                   onTap: () {
                     Navigator.pushNamed(context, '/grade_courses',
-                        arguments: 11);
+                        arguments: 'CMXPu0J2jKn1osWkjZTm');
                   },
                 ),
               ),
