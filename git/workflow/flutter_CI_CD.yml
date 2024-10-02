@@ -1,0 +1,65 @@
+name: Flutter CI/CD
+#TODO: Create a dev branch for test
+on:
+  push:
+    branches:
+      - main
+      #-dev
+  pull_request:
+    branches:
+      - main
+      #-dev
+#TODO: Choose should we use android platform
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+
+    strategy:
+      matrix:
+        target: [android, web] 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Flutter Installation
+      #TODO: Install actual version instead of stable
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run tests
+      - name: Run Flutter tests
+        run: flutter test
+
+      # Android build
+      - name: Build Android app
+        if: matrix.target == 'android'  
+        run: flutter build apk --release
+
+      
+      - name: Build Web app
+        if: matrix.target == 'web'  
+        run: flutter build web --release
+
+      
+      - name: Upload Android APK
+        if: matrix.target == 'android'
+        uses: actions/upload-artifact@v2
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      
+      # - name: Upload Web build
+      #   if: matrix.target == 'web'
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: web-build
+      #     path: build/web
+
+  
